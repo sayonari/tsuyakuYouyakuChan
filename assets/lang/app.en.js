@@ -194,6 +194,8 @@ I18N.add({
   'Claude に接続できないため，今回はローカル LLM（{m}）で要約しました．': 'Could not reach Claude, so this summary was made with the local LLM ({m}).',
   'この発表はまだ書き起こしがないので，このまま使います．': 'This talk has no transcript yet, so it will be reused.',
   '次の発表の記録を始めました（{l}）．': 'Started a new record for the next talk ({l}).',
+  '「{p}」の記録を閉じ，次の発表の記録を始めました（{l}）．': 'Closed the record of “{p}” and started a new one for the next talk ({l}).',
+  '{n}秒ごと': 'every {n} s',
   '取り消す': 'Undo',
   '元の発表の記録に戻しました．': 'Went back to the previous talk’s record.',
   'この Chrome では小窓（Document Picture-in-Picture）が使えません．': 'The mini window (Document Picture-in-Picture) is not available in this Chrome.',

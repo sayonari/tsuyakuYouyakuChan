@@ -110,9 +110,23 @@
 
   // ---------------------------------------------------------------- 認識の状態（停止中／準備中／認識中／エラー）
   let recState = 'idle';
+  // 認識中は画面のスリープを防ぐ（発表中に PC に触らなくても，画面が消えて記録が途切れないように）．
+  // ページが隠れると Chrome が自動で解除するので，見えるようになったら取り直す
+  let wakeLock = null;
+  async function keepAwake(on) {
+    try {
+      if (on && !wakeLock && 'wakeLock' in navigator && document.visibilityState === 'visible') {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => { wakeLock = null; });
+      } else if (!on && wakeLock) { const w = wakeLock; wakeLock = null; await w.release(); }
+    } catch (e) { wakeLock = null; }
+  }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && recState === 'listening') keepAwake(true); });
+
   function setRec(state, detail = '') {
     recState = state;
     document.body.dataset.rec = state;
+    keepAwake(state === 'listening');
     const text = { idle: T('停止中'), preparing: T('準備中…'), listening: T('認識中') + (detail ? '・' + detail : ''), error: T('エラーで停止') }[state];
     $('#recState .state-text').textContent = text;
     miniStateText.textContent = state === 'listening' ? T('認識中') : text;
@@ -505,7 +519,8 @@
   function renderSumAge() {
     const el = $('#sumState');
     if (sumBusy || el.classList.contains('err')) return;
-    if (lastSumOkAt) setSumState(T('更新 {a}', { a: ago(Date.now() - lastSumOkAt) }), '', sumInfo);
+    const mode = settings.interval ? T('{n}秒ごと', { n: settings.interval }) : T('手動');
+    if (lastSumOkAt) setSumState(T('更新 {a}', { a: ago(Date.now() - lastSumOkAt) }) + ' · ' + mode, '', sumInfo);
   }
   setInterval(() => {
     if (recState === 'listening') { const e = fmt(Date.now() - S.startedAt); $('#clock').textContent = e; miniClock.textContent = e; }
@@ -653,7 +668,10 @@
     try { localStorage.removeItem(LS_LAST); } catch (e) {}
     resetView();
     const label = [S.meta.event || T('未分類'), S.meta.group].filter(Boolean).join(' › ');
-    notice(T('次の発表の記録を始めました（{l}）．', { l: label }), 'info', 12000, { label: T('取り消す'), fn: () => undoNext(prev) });
+    const prevTitle = (prev.meta.title || (prev.summary && prev.summary.title) || '').trim();
+    const shortT = prevTitle.length > 28 ? prevTitle.slice(0, 27) + '…' : prevTitle;
+    notice(prevTitle ? T('「{p}」の記録を閉じ，次の発表の記録を始めました（{l}）．', { p: shortT, l: label }) : T('次の発表の記録を始めました（{l}）．', { l: label }),
+      'info', 15000, { label: T('取り消す'), fn: () => undoNext(prev) });
   }
   function undoNext(prev) {
     const cur = S;
@@ -930,7 +948,7 @@
   mic.refreshDevices();
   renderInputLabel();
   renderEngineChip();
-  connectHelper(!!settings.helper);
+  connectHelper(!!settings.helper).then(() => { if (restored && S.lines.length) saveSession(); });
   (() => {
     const notes = [];
     if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) notes.push(T('音声認識が使えません（パソコン版の Google Chrome で開いてください）'));
