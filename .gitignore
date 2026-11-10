@@ -1,0 +1,9 @@
+# 記録（講演・会議の内容）は公開しない
+sessions/
+# ローカルの作業用
+.claude_cwd/
+__pycache__/
+.DS_Store
+.agent/
+CLAUDE.md
+app/

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>学会通訳要約ちゃん</title>
+<meta name="description" content="講演・学会発表を，その場で音声認識・翻訳・要約する無料の Web アプリ（Chrome 内蔵 AI を利用）">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131a22'/%3E%3Cpath d='M7 16h2M11 11v10M15 8v16M19 12v8M23 14v4' stroke='%2353c7f0' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ================= アイコン（自作 SVG．線 1.75・丸い端で統一） ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M5.5 6v12l8.5-6z" fill="currentColor"/><path d="M18 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-pip" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.75"/><rect x="12" y="11.5" width="6.5" height="5" rx="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V5h11v2M9.5 5v14M7.5 19h4M14 12.5v-1.5h6v1.5M17 11v8M15.8 19h2.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-log" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="4.75" cy="6.5" r="1.25" fill="currentColor"/><circle cx="4.75" cy="12" r="1.25" fill="currentColor"/><circle cx="4.75" cy="17.5" r="1.25" fill="currentColor"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="15" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="9" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="1.75"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h3.6l2 2h7.4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></symbol>
+    <symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M9 20h6M12 16.5V20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M10 3.5V7M14 3.5V7M10 17v3.5M14 17v3.5M3.5 10H7M3.5 14H7M17 10h3.5M17 14h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7.5 18.5a4.5 4.5 0 0 1-.4-9 6 6 0 0 1 11.5 1.8 3.6 3.6 0 0 1-1.1 7.2z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1L5 10.5l5.1-1.9z" fill="currentColor"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-reveal" viewBox="0 0 24 24"><path d="M13.5 4.5h6v6M19.5 4.5l-8 8M17.5 13.5v4a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6.5 13.5L12 19l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h9.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z M5 16.5a3 3 0 0 1 3-3h9.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M3.75 12h16.5M12 3.75c2.3 2.4 3.4 5.1 3.4 8.25S14.3 17.85 12 20.25C9.7 17.85 8.6 15.15 8.6 12S9.7 6.15 12 3.75z" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3.5v4M15 3.5v4M6.5 7.5h11v3a5.5 5.5 0 0 1-11 0zM12 16v4.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 32 32"><path d="M6 16h2.4M10.8 11v10M15.6 7.5v17M20.4 11.5v9M25.2 14v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= 上部バー ================= -->
+<header id="bar">
+  <div class="brand" title="学会通訳要約ちゃん">
+    <span class="brand-mark"><svg><use href="#i-logo"/></svg></span>
+    <span class="brand-name">学会通訳要約ちゃん</span>
+  </div>
+
+  <!-- 録音機：開始・停止／経過／入力レベル／状態 -->
+  <div class="deck" id="recState" role="group" aria-label="認識">
+    <button id="btnStart" class="rec-btn" type="button" aria-label="開始">
+      <svg class="ico-play"><use href="#i-play"/></svg><svg class="ico-stop"><use href="#i-stop"/></svg>
+      <span class="rec-label">開始</span>
+    </button>
+    <div class="deck-read">
+      <span class="deck-top"><span class="dot"></span><span class="state-text" aria-live="polite">停止中</span></span>
+      <span class="deck-bottom"><span id="clock" class="clock" title="この発表の記録を始めてからの経過時間">00:00</span>
+        <span id="meter" class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+    </div>
+  </div>
+
+  <button id="langPill" class="lang-pill" type="button" title="話される言語 → 翻訳先（クリックで変更）"><svg><use href="#i-globe"/></svg><span class="lp-src">EN</span><span class="lp-arrow">→</span><span class="lp-dst">JA</span></button>
+
+  <button id="btnNext" class="tbtn" type="button" title="今の発表の記録を閉じて，次の発表の記録を始めます（認識は止めません）">
+    <svg><use href="#i-next"/></svg><span class="lbl">次の発表へ</span>
+  </button>
+
+  <button type="button" id="crumb" class="crumb" popovertarget="popRecord" title="この発表の記録先と題名">
+    <svg class="crumb-ico"><use href="#i-folder"/></svg>
+    <span class="crumb-text"><span class="crumb-ev"></span><span class="crumb-gr"></span></span>
+    <svg class="crumb-chev"><use href="#i-chevron"/></svg>
+  </button>
+
+  <div class="spacer"></div>
+
+  <nav class="tools" aria-label="表示とツール">
+    <button id="btnPip" type="button" class="tool" title="小窓：常に手前に出る小さな窓（Zoom・Meet の横に置いて使う）"><svg><use href="#i-pip"/></svg><span class="lbl">小窓</span></button>
+    <button id="btnView" type="button" class="tool" popovertarget="popView" title="表示：言語と文字の大きさ"><svg><use href="#i-type"/></svg><span class="lbl">表示</span></button>
+    <a class="tool" href="logs.html" target="_blank" rel="noopener" title="ログ：これまでの記録を一覧・検索（別のタブ）"><svg><use href="#i-log"/></svg><span class="lbl">ログ</span></a>
+    <a class="tool" href="guide.html" target="_blank" rel="noopener" title="説明書：使い方と準備（別のタブ）"><svg><use href="#i-book"/></svg><span class="lbl">説明書</span></a>
+    <span class="tools-sep" aria-hidden="true"></span>
+    <button id="btnSettings" type="button" class="tool" title="設定：音声入力・認識・要約"><svg><use href="#i-sliders"/></svg><span class="lbl">設定</span></button>
+  </nav>
+</header>
+
+<!-- 表示 -->
+<div id="popView" popover class="pop">
+  <div class="pop-head">表示</div>
+  <div class="pop-sec">
+    <div class="pop-label">言語</div>
+    <div class="seg" role="radiogroup" aria-label="表示する言語">
+      <label><input type="radio" name="show" value="both"><span>訳＋原文</span></label>
+      <label><input type="radio" name="show" value="ja"><span>訳だけ</span></label>
+      <label><input type="radio" name="show" value="en"><span>原文だけ</span></label>
+    </div>
+  </div>
+  <div class="pop-sec">
+    <div class="pop-label">文字の大きさ</div>
+    <label class="slider"><span>書き起こし</span><input id="rngFont" type="range" min="16" max="40" step="1"><output id="outFont"></output></label>
+    <label class="slider"><span>要約</span><input id="rngSum" type="range" min="13" max="22" step="1"><output id="outSum"></output></label>
+    <label class="slider"><span>小窓</span><input id="rngPip" type="range" min="14" max="36" step="1"><output id="outPip"></output></label>
+  </div>
+</div>
+
+<!-- この発表の記録 -->
+<div id="popRecord" popover class="pop wide">
+  <div class="pop-head">この発表の記録</div>
+  <div class="pop-sec">
+    <label class="field"><span>学会・イベント</span><input id="mEvent" list="dlEvents" placeholder="例：Interspeech 2026（空なら「未分類」）" autocomplete="off"></label>
+    <label class="field"><span>セッション</span><input id="mGroup" list="dlGroups" placeholder="例：Session A3（空でもかまいません）" autocomplete="off"></label>
+    <label class="field"><span>発表の題名</span><input id="mTitle" placeholder="空なら要約から自動で付きます" autocomplete="off"></label>
+    <datalist id="dlEvents"></datalist><datalist id="dlGroups"></datalist>
+    <p class="hint">学会とセッションは「次の発表へ」で次の記録に引き継がれます．保存先は sessions/学会/セッション/ です．</p>
+  </div>
+  <div class="pop-sec meta-row">
+    <div><span class="k">記録ID</span><span id="recId" class="v mono"></span></div>
+    <div><span class="k">保存</span><span id="recSaved" class="v">まだ保存していません</span></div>
+  </div>
+  <div class="pop-foot">
+    <button type="button" class="tbtn ghost" id="btnFolder"><svg><use href="#i-reveal"/></svg>Finder で表示</button>
+    <a class="tbtn ghost" href="logs.html" target="_blank" rel="noopener"><svg><use href="#i-log"/></svg>ログを見る</a>
+  </div>
+</div>
+
+<!-- 設定 -->
+<dialog id="dlgSettings" aria-labelledby="dlgTitle">
+  <form method="dialog">
+    <header class="dlg-head">
+      <h2 id="dlgTitle">設定</h2>
+      <button class="icon-btn" value="close" aria-label="閉じる"><svg><use href="#i-close"/></svg></button>
+    </header>
+    <div class="dlg-body">
+      <section class="set">
+        <h3>音声入力</h3>
+        <div class="cards two">
+          <label class="card-opt"><input type="radio" name="src" value="mic">
+            <span class="co-ico"><svg><use href="#i-mic"/></svg></span>
+            <span class="co-main"><b>マイク</b><small>会場の講演を，この Mac のマイクで聞く</small>
+              <select id="selDevice" aria-label="使うマイク"><option value="">既定のマイク</option></select></span>
+          </label>
+          <label class="card-opt"><input type="radio" name="src" value="tab">
+            <span class="co-ico"><svg><use href="#i-screen"/></svg></span>
+            <span class="co-main"><b>タブ・画面の音声</b><small>Meet・Zoom（ブラウザ版）など．開始時に共有するタブを選び，「タブの音声も共有」をオンに</small></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="set">
+        <h3>言語</h3>
+        <div class="lang-row">
+          <label class="field"><span>話される言語（音声認識）</span><select id="selSrc"></select></label>
+          <span class="lang-arrow" aria-hidden="true">→</span>
+          <label class="field"><span>翻訳先</span><select id="selDst"></select></label>
+        </div>
+        <p class="hint">日本語の発表で要約だけ欲しいときは，話される言語を「日本語」，翻訳先を「翻訳しない」にします．</p>
+      </section>
+
+      <section class="set">
+        <h3>音声認識</h3>
+        <div class="seg big" role="radiogroup" aria-label="音声認識">
+          <label><input type="radio" name="recog" value="local"><span><svg><use href="#i-chip"/></svg>端末内<small>オフライン・音声を外に出さない</small></span></label>
+          <label><input type="radio" name="recog" value="cloud"><span><svg><use href="#i-cloud"/></svg>クラウド<small>Google・ネットが必要</small></span></label>
+        </div>
+      </section>
+
+      <section class="set">
+        <h3>文の区切り方</h3>
+        <div class="seg big" role="radiogroup" aria-label="文の区切り方">
+          <label><input type="radio" name="mode" value="continuous"><span>連続<small>長い文も取りこぼしにくい（おすすめ）</small></span></label>
+          <label><input type="radio" name="mode" value="restart"><span>1 文ごと<small>確定は速いが，長い文が切れやすい</small></span></label>
+        </div>
+      </section>
+
+      <section class="set">
+        <h3>要約エンジン</h3>
+        <div id="engineList" class="engines" role="radiogroup" aria-label="要約エンジン"></div>
+        <p class="hint">ローカル LLM は選んだときだけ読み込み，使わなくなって 10 分でメモリから外します．Claude がネットにつながらないときは，その回だけローカル LLM で要約します．</p>
+      </section>
+
+      <section class="set" id="setHelper">
+        <h3>補助プログラム（Claude・ローカル LLM・フォルダ保存）</h3>
+        <div class="helper-row">
+          <span class="helper-state" id="helperState"><span class="dot"></span><span class="hs-text">確認していません</span></span>
+          <button type="button" class="tbtn" id="btnHelper"><svg><use href="#i-plug"/></svg>接続を確認</button>
+          <a class="link" href="guide.html#helper" target="_blank" rel="noopener">準備のしかた</a>
+        </div>
+        <p class="hint">この Mac で補助プログラムを動かすと，Claude（サブスク）やローカル LLM で要約し，記録をフォルダに保存できます．無くても，Chrome 内蔵 AI での要約とブラウザ内への保存で使えます．</p>
+      </section>
+
+      <section class="set">
+        <h3>要約の更新間隔</h3>
+        <div class="seg" role="radiogroup" aria-label="要約の更新間隔">
+          <label><input type="radio" name="interval" value="20"><span>20 秒</span></label>
+          <label><input type="radio" name="interval" value="40"><span>40 秒</span></label>
+          <label><input type="radio" name="interval" value="90"><span>90 秒</span></label>
+          <label><input type="radio" name="interval" value="0"><span>手動</span></label>
+        </div>
+      </section>
+    </div>
+    <footer class="dlg-foot">
+      <p class="hint" id="settingsNote">音声入力・言語・認識・区切りの変更は，閉じたときに認識を作り直して反映します．<br><span class="credit">開発者：さよなりω/(大学教員)西村良太</span></p>
+      <button class="tbtn primary" value="ok">完了</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- ================= いまの話題（常に同じ位置） ================= -->
+<section id="topic" aria-label="いま話されていること">
+  <div class="topic-head">
+    <span class="topic-label">いま</span>
+    <span id="sPhase" class="phase"></span>
+    <span id="topicTag" class="tag"></span>
+  </div>
+  <div class="topic-main">
+    <div id="sNow" class="topic-now"></div>
+    <ol id="flowMini" class="flow-mini" aria-label="ここまでの流れ"></ol>
+  </div>
+  <div class="topic-side">
+    <span id="sumState" class="sum-state" role="status" aria-live="polite">要約はまだありません</span>
+    <div class="topic-tools">
+      <button type="button" id="engineChip" class="chip" title="要約に使っているエンジン（クリックで設定）"></button>
+      <button type="button" class="icon-btn" id="btnSumNow" title="今すぐ要約を作り直す" aria-label="要約を今すぐ更新"><svg><use href="#i-refresh"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- 幅が狭いときだけ出る切り替え -->
+<nav id="tabs" role="tablist" aria-label="表示の切り替え">
+  <button type="button" role="tab" data-pane="left" aria-selected="true">書き起こし</button>
+  <button type="button" role="tab" data-pane="right" aria-selected="false">要約</button>
+</nav>
+
+<main data-pane="left">
+  <!-- ================= 書き起こし ================= -->
+  <section id="left" aria-label="書き起こしと翻訳">
+    <div id="notice" hidden><span class="notice-text"></span><button type="button" class="tbtn small notice-action" hidden></button><button type="button" class="notice-close icon-btn" aria-label="閉じる"><svg><use href="#i-close"/></svg></button></div>
+    <div id="log">
+      <div id="empty" class="empty">
+        <div class="empty-mark"><svg><use href="#i-logo"/></svg></div>
+        <p class="empty-lead">「開始」を押すと，ここに訳が流れます．</p>
+        <p class="empty-src">音声入力：<b id="emptyInput">既定のマイク</b>　言語：<b id="emptyLang">英語 → 日本語</b><button type="button" class="link" id="emptySettings">変更</button></p>
+        <p class="hint">原文は訳の下に小さく出ます．上の「いま」と右の要約は，話が始まると自動で更新されます．<br>はじめての方は <a class="link" href="guide.html" target="_blank" rel="noopener">説明書</a> をどうぞ．</p>
+      </div>
+    </div>
+    <button type="button" id="jump" hidden><svg><use href="#i-down"/></svg>最新へ<span id="jumpCount"></span></button>
+    <div id="interim" aria-hidden="true">
+      <span class="interim-label">認識途中</span>
+      <div class="interim-body"><div class="ja"></div><div class="en"></div></div>
+    </div>
+  </section>
+
+  <!-- ================= 要約の詳細 ================= -->
+  <aside id="right" aria-label="要約">
+    <header id="talk">
+      <div><span id="sKind" class="kind"></span></div>
+      <h1 id="sTitle"></h1>
+      <div id="sSpeaker" class="speaker"></div>
+    </header>
+    <nav id="toc" aria-label="要約の項目"></nav>
+    <section class="sec" id="secHow"><h2>どのように説明しているか</h2><p id="sHow"></p></section>
+    <section class="sec" id="secFlow"><h2>流れ</h2><ol id="sFlow" class="flow"></ol></section>
+    <section class="sec" id="secPoints"><h2>要点</h2><ul id="sPoints" class="points"></ul></section>
+    <section class="sec" id="secOverall"><h2>全体要約</h2><p id="sOverall"></p></section>
+    <section class="sec" id="secTerms"><h2>用語</h2><dl id="sTerms" class="terms"></dl></section>
+    <section class="sec" id="secQuestions"><h2>質問するなら</h2><ul id="sQuestions" class="points"></ul></section>
+  </aside>
+</main>
+
+<!-- ================= 小窓（Document Picture-in-Picture に移して使う） ================= -->
+<div id="mini" hidden>
+  <div class="mini-bar">
+    <span class="mini-state"><span class="dot"></span><span class="mini-state-text">停止中</span></span>
+    <span class="mini-clock"></span>
+    <span class="spacer"></span>
+    <button type="button" class="icon-btn mini-font" data-d="-2" aria-label="文字を小さく" title="文字を小さく"><b>A−</b></button>
+    <button type="button" class="icon-btn mini-font" data-d="2" aria-label="文字を大きく" title="文字を大きく"><b>A＋</b></button>
+    <button type="button" class="tbtn small mini-start"><svg class="ico-play"><use href="#i-play"/></svg><svg class="ico-stop"><use href="#i-stop"/></svg><span class="mini-start-label">開始</span></button>
+  </div>
+  <div class="mini-topic"><span class="phase mini-phase"></span><span class="mini-now"></span></div>
+  <div class="mini-lines"></div>
+  <div class="mini-interim"><div class="mini-interim-in"></div></div>
+</div>
+
+<script src="/jimakuChan/v2/js/recognizer.js"></script>
+<script src="/jimakuChan/v2/js/mic.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

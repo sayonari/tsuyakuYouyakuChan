@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>説明書 - 学会通訳要約ちゃん</title>
+<meta name="description" content="学会通訳要約ちゃんの使い方：講演・学会発表をその場で音声認識・翻訳・要約する無料の Web アプリ">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131a22'/%3E%3Cpath d='M7 16h2M11 11v10M15 8v16M19 12v8M23 14v4' stroke='%2353c7f0' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/guide.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html"><span class="mark"><svg viewBox="0 0 32 32"><path d="M6 16h2.4M10.8 11v10M15.6 7.5v17M20.4 11.5v9M25.2 14v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></span>学会通訳要約ちゃん</a>
+  <nav>
+    <a href="#start">はじめかた</a><a href="#screen">画面の見方</a><a href="#conf">学会で</a><a href="#online">Zoom・Meet</a><a href="#helper">補助プログラム</a><a href="#faq">よくある質問</a>
+    <a class="open" href="index.html">アプリを開く</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <p class="kicker">説明書</p>
+  <h1>聞きながら，<br>訳して，まとめる．</h1>
+  <p class="lead">学会通訳要約ちゃんは，講演・学会発表・会議の話し言葉を，その場で<b>音声認識</b>し，<b>翻訳</b>し，<b>「いま何の話か」まで要約</b>する Web アプリです．<br>パソコン版の Google Chrome でページを開くだけで使えます．インストールも登録も要りません．</p>
+  <div class="cta"><a class="btn primary" href="index.html">アプリを開く</a><a class="btn" href="#start">使い方を見る</a></div>
+  <figure class="shot"><img src="assets/img/main.jpg" alt="アプリの画面：上に「いま話されていること」，左に訳と原文，右に要約" loading="lazy"></figure>
+</section>
+
+<section id="features">
+  <h2>できること</h2>
+  <div class="grid3">
+    <div class="feat"><h3>音声認識</h3><p>Chrome に入っている音声認識で，話し言葉を文字にします．英語・日本語・中国語・韓国語など 20 以上の言語に対応．端末内で認識すれば，音声はパソコンの外に出ません．</p></div>
+    <div class="feat"><h3>翻訳</h3><p>確定した文を，Chrome 内蔵の翻訳で訳します．話している途中の文も先に訳して出します．訳さずに原文だけ表示することもできます．</p></div>
+    <div class="feat"><h3>要約</h3><p>数十秒ごとに，いま話されていること・何の発表か・どう説明しているか・流れ・要点・用語・質問の候補をまとめ直します．</p></div>
+    <div class="feat"><h3>学会向けの記録</h3><p>発表ごとに記録を分け，「学会 › セッション」で整理して保存します．「次の発表へ」で認識を止めずに切り替えられます．</p></div>
+    <div class="feat"><h3>Zoom・Meet</h3><p>ブラウザのタブや画面の音声も認識できます．常に手前に出る「小窓」に，最新の訳と「いまの話題」を出せます．</p></div>
+    <div class="feat"><h3>ログ</h3><p>これまでの記録を一覧・全文検索し，要約と書き起こしを読み返せます．Markdown と JSON で書き出せます．</p></div>
+  </div>
+</section>
+
+<section id="start">
+  <h2>はじめかた</h2>
+  <ol class="steps">
+    <li><b>パソコン版の Google Chrome でアプリを開きます．</b>Windows・Mac どちらでも使えます（Chrome は最新にしてください）．</li>
+    <li><b>赤い「開始」ボタンを押します．</b>はじめてのときは，マイクの使用を許可してください．</li>
+    <li><b>話が始まると，左に訳，上に「いま」，右に要約が出ます．</b>止めるときは「停止」．もう一度「開始」を押すと，同じ発表の記録の続きになります．</li>
+  </ol>
+  <p class="note">はじめて使うときは，Chrome が音声認識・翻訳・要約のモデルを自動で取得します（数分かかることがあります）．取得が終わるまでは，音声認識だけ Google のクラウドで行います．</p>
+</section>
+
+<section id="screen">
+  <h2>画面の見方</h2>
+  <figure class="shot"><img src="assets/img/main-numbered.jpg" alt="画面全体（①〜⑨は下の説明に対応）" loading="lazy"></figure>
+  <dl class="parts">
+    <dt>① 開始・停止と状態</dt><dd>赤いボタンで認識を始め・止めます．右側に認識の状態（端末内／クラウド・マイク／タブの音声），この発表の経過時間，入力の大きさが出ます．</dd>
+    <dt>② 言語</dt><dd>「EN → JA」のように，話される言語と翻訳先を表します．押すと設定が開きます．</dd>
+    <dt>③ 次の発表へ</dt><dd>今の発表の記録を閉じて，次の発表の記録を始めます．認識は止めません．押し間違えたときは，出てくる「取り消す」で元に戻せます．</dd>
+    <dt>④ 記録先</dt><dd>この発表を保存する「学会 › セッション」です．押すと，学会名・セッション名・発表の題名を入力できます．</dd>
+    <dt>⑤ 小窓・表示・ログ・説明書・設定</dt><dd>小窓は常に手前に出る小さな窓，表示は言語と文字の大きさ，ログは過去の記録の一覧です．</dd>
+    <dt>⑥ いま</dt><dd>いま話されていることを 2 文ほどで示します．左上の印は全体の中の位置（導入・提案手法・実験 など），下の列はここまでの流れです．右上に要約の更新時刻と，要約に使っているエンジン（¥0 は追加料金なし）が出ます．</dd>
+    <dt>⑦ 書き起こし</dt><dd>大きい字が訳，小さい字が原文です．左に青い線が付いた行が，いちばん新しい発言です．上へ戻って読んでいる間に新しい行が来ると，「最新へ」ボタンが出ます．</dd>
+    <dt>⑧ 認識途中</dt><dd>話している途中の文です．確定すると上の書き起こしに移ります．</dd>
+    <dt>⑨ 要約</dt><dd>何の発表か，どのように説明しているか，流れ，要点，全体要約，用語，質問するなら，を表示します．更新された項目には「更新」の印が付きます．</dd>
+  </dl>
+  <div class="grid2">
+    <figure class="shot"><img src="assets/img/view.jpg" alt="表示メニュー" loading="lazy"><figcaption>表示：訳＋原文／訳だけ／原文だけ，文字の大きさ</figcaption></figure>
+    <figure class="shot"><img src="assets/img/record.jpg" alt="記録先メニュー" loading="lazy"><figcaption>記録先：学会・セッション・題名</figcaption></figure>
+  </div>
+</section>
+
+<section id="settings">
+  <h2>設定</h2>
+  <figure class="shot narrow"><img src="assets/img/settings.jpg" alt="設定画面" loading="lazy"></figure>
+  <dl class="parts">
+    <dt>音声入力</dt><dd>「マイク」は会場の講演をパソコンのマイクで聞くとき．「タブ・画面の音声」は Meet・Zoom（ブラウザ版）などのとき．</dd>
+    <dt>言語</dt><dd>話される言語と翻訳先を選びます．日本語の発表で要約だけ欲しいときは，話される言語を「日本語」，翻訳先を「翻訳しない」にします．</dd>
+    <dt>音声認識</dt><dd>「端末内」は音声をパソコンの外に出しません（オフラインでも動きます）．「クラウド」は Google のサーバで認識します．</dd>
+    <dt>文の区切り方</dt><dd>「連続」は長い文も取りこぼしにくい設定です（おすすめ）．「1 文ごと」は確定が速い代わりに，長い文が途中で切れやすくなります．</dd>
+    <dt>要約エンジン</dt><dd>何もインストールしなくても「Gemini Nano（Chrome 内蔵 AI）」で要約できます．補助プログラムがあれば，Claude（Sonnet・Haiku・Opus）やローカル LLM も選べます．</dd>
+    <dt>要約の更新間隔</dt><dd>20 秒・40 秒・90 秒・手動から選びます．</dd>
+  </dl>
+</section>
+
+<section id="conf">
+  <h2>学会で使う</h2>
+  <ol class="steps">
+    <li>セッションが始まる前に，上の記録先（フォルダの印）を押して，<b>学会名</b>と<b>セッション名</b>を入れます．</li>
+    <li>発表が始まったら「開始」．</li>
+    <li>次の発表に移ったら <b>「次の発表へ」</b>．学会名とセッション名は引き継がれます．認識は止まりません．</li>
+    <li>休憩で止めたいときは「停止」．再開しても同じ発表の続きになります．</li>
+  </ol>
+  <p class="note">会場のスピーカーから遠いと認識が落ちます．前の方の席に座るか，外付けマイクを使うと精度が上がります．</p>
+</section>
+
+<section id="online">
+  <h2>Zoom・Meet で使う</h2>
+  <ol class="steps">
+    <li>設定の「音声入力」で <b>「タブ・画面の音声」</b> を選びます．</li>
+    <li>「開始」を押すと，共有するタブを選ぶ画面が出ます．会議のタブを選び，<b>「タブの音声も共有する」をオン</b>にします．</li>
+    <li><b>「小窓」</b>を押すと，最新の訳と「いまの話題」が常に手前に出ます．会議の画面の横に置いて使えます．</li>
+  </ol>
+  <p class="note">Zoom はブラウザ版で参加すると，同じ手順で使えます．</p>
+</section>
+
+<section id="logs">
+  <h2>ログ（記録の一覧と検索）</h2>
+  <figure class="shot"><img src="assets/img/logs.jpg" alt="ログ画面" loading="lazy"></figure>
+  <p>上の「ログ」から開きます．「学会 › セッション › 発表」の順に並び，語で全文検索できます．発表を選ぶと，要約・流れ・用語・その時々の話題・書き起こしを読み返せます．流れの時刻を押すと，その時刻の書き起こしへ移ります．Markdown・JSON での保存，分類や題名の変更もここでできます．</p>
+  <p class="note">補助プログラムが無いときは，記録はこのブラウザの中に保存されます．別のパソコンへ移すときは，ログ画面の「すべて書き出す」と「読み込む」を使ってください．</p>
+</section>
+
+<section id="helper">
+  <h2>補助プログラム（Claude・ローカル LLM・フォルダ保存）</h2>
+  <p>補助プログラムは，パソコンの中で動く小さなプログラムです．動かしておくと，次のことができるようになります．</p>
+  <ul class="checks">
+    <li><b>Claude で要約</b>：Claude Code にログインしていれば，サブスクの枠内（追加料金なし）で Claude Sonnet などを使って要約できます．</li>
+    <li><b>ローカル LLM で要約</b>：Ollama のモデル（qwen3 など）で，ネットなしで要約できます．必要なときだけモデルを読み込み，使わなくなると外します．</li>
+    <li><b>記録をフォルダに保存</b>：sessions/学会/セッション/ に Markdown と JSON で保存します．</li>
+  </ul>
+  <h3>準備</h3>
+  <ol class="steps">
+    <li><a href="https://github.com/sayonari/tsuyakuYouyakuChan">GitHub</a> から一式を取得します（「Code」→「Download ZIP」，または <code>git clone https://github.com/sayonari/tsuyakuYouyakuChan.git</code>）．</li>
+    <li>Python 3 が必要です（Mac には入っています）．Claude で要約するなら <a href="https://claude.com/claude-code">Claude Code</a> をインストールしてログイン，ローカル LLM を使うなら <a href="https://ollama.com/">Ollama</a> とモデル（例：<code>ollama pull qwen3:8b</code>）を入れます．</li>
+    <li>取得したフォルダで <code>python3 server.py</code> を実行します（Mac は <code>start.command</code> をダブルクリックでも可）．</li>
+    <li>アプリの「設定」→「補助プログラム」→ <b>「接続を確認」</b>．Chrome から「ローカル ネットワーク上のデバイスへのアクセス」の確認が出たら許可してください．</li>
+  </ol>
+  <p class="note">補助プログラムは，このパソコンの中（127.0.0.1）だけで待ち受けます．このアプリ以外のサイトからの要約・保存・削除の呼び出しは断ります．</p>
+</section>
+
+<section id="offline">
+  <h2>ネットが無いところで</h2>
+  <p>音声認識を「端末内」にし，要約を「Gemini Nano」かローカル LLM にすると，ネットにつながっていなくても動きます（はじめに一度，ネットにつながった状態でモデルを取得しておいてください）．Claude を選んでいてネットが切れたときは，補助プログラムがその回だけローカル LLM で代わりに要約します．</p>
+</section>
+
+<section id="privacy">
+  <h2>データの行き先</h2>
+  <table class="where">
+    <thead><tr><th>処理</th><th>どこで</th></tr></thead>
+    <tbody>
+      <tr><td>音声認識（端末内）</td><td>このパソコンの中だけ</td></tr>
+      <tr><td>音声認識（クラウド）</td><td>Google のサーバに音声が送られます</td></tr>
+      <tr><td>翻訳</td><td>このパソコンの中だけ（Chrome 内蔵）</td></tr>
+      <tr><td>要約（Gemini Nano・ローカル LLM）</td><td>このパソコンの中だけ</td></tr>
+      <tr><td>要約（Claude）</td><td>書き起こしの文字が，あなたの Claude Code を通して Anthropic に送られます</td></tr>
+      <tr><td>記録</td><td>このブラウザの中，または補助プログラムのフォルダ．どこにも公開されません</td></tr>
+    </tbody>
+  </table>
+  <p class="note">非公開の会議では，音声認識を「端末内」，要約を「Gemini Nano」かローカル LLM にすると，内容がパソコンの外に出ません．録音・記録については，会の決まりや話し手の意向に従ってください．</p>
+</section>
+
+<section id="faq">
+  <h2>よくある質問</h2>
+  <details><summary>スマホで使えますか？</summary><p>今はパソコン版の Google Chrome だけです．Chrome の内蔵翻訳と内蔵 AI が，スマホ版にはまだ無いためです．</p></details>
+  <details><summary>お金はかかりますか？</summary><p>アプリは無料です．Chrome の音声認識・翻訳・Gemini Nano も無料です．Claude で要約するときは，あなたの Claude のサブスクの枠を使います（API キーで動かしている場合は従量課金になります．設定の要約エンジンに「従量課金」と出ます）．</p></details>
+  <details><summary>認識結果が出ません．</summary><p>マイクが許可されているか，入力の大きさ（開始ボタンの右のバー）が動いているかを確かめてください．端末内の認識で結果が出ないときは，設定の「音声認識」をクラウドにすると直ることがあります．</p></details>
+  <details><summary>長い文が途中で切れます．</summary><p>設定の「文の区切り方」を「連続」にしてください．短い断片は，直前の行につなげて訳し直します．</p></details>
+  <details><summary>要約が出ません．</summary><p>右上の要約エンジンの表示を見てください．Claude やローカル LLM は補助プログラムが必要です．Gemini Nano は，はじめにモデルの取得が必要です（Chrome が自動で行います）．</p></details>
+  <details><summary>別の講演の記録に混ざりました．</summary><p>「停止→開始」は同じ発表の続きです．別の発表にするときは「次の発表へ」を押してください．ログ画面で分類や題名を直せます．</p></details>
+</section>
+
+<footer class="foot">
+  <p>学会通訳要約ちゃん　開発者：さよなりω/(大学教員)西村良太</p>
+  <p><a href="https://github.com/sayonari/tsuyakuYouyakuChan">GitHub</a>・MIT License</p>
+</footer>
+</main>
+</body>
+</html>

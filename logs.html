@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>ログ - 学会通訳要約ちゃん</title>
+<link rel="stylesheet" href="assets/logs.css">
+</head>
+<body>
+<div id="app">
+  <aside id="side" aria-label="記録の一覧">
+    <div class="side-top">
+      <div id="where" class="where-store" style="font-size:12px;opacity:.7;margin-bottom:6px"></div>
+      <a class="back" href="index.html">← 記録画面へ</a>
+      <div class="searchbox">
+        <input id="q" type="search" placeholder="語で検索（書き起こし・訳・要約）" aria-label="検索" autocomplete="off">
+        <button id="qClear" class="clear" type="button" aria-label="検索を消す" hidden>×</button>
+      </div>
+    </div>
+    <div id="list" class="scroll" role="navigation"></div>
+    <div id="backup" class="side-top" hidden style="display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid rgba(128,128,128,.3)">
+      <button id="btnExport" class="btn small" type="button">すべて書き出す（JSON）</button>
+      <button id="btnImport" class="btn small" type="button">読み込む</button>
+      <input id="fileImport" type="file" accept=".json,application/json" hidden>
+      <div id="backupMsg" class="status" role="status" style="width:100%"></div>
+    </div>
+  </aside>
+  <main id="main">
+    <div class="main-top">
+      <button id="btnSide" class="btn small" type="button" aria-expanded="true" aria-controls="side">一覧を開閉</button>
+    </div>
+    <div id="detail" class="scroll" tabindex="-1"></div>
+  </main>
+</div>
+<script src="assets/store.js"></script>
+<script src="assets/logs.js"></script>
+</body>
+</html>
