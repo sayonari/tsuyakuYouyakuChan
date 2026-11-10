@@ -56,7 +56,7 @@ OLLAMA_MANIFESTS = Path(os.environ.get('OLLAMA_MODELS') or (Path.home() / '.olla
 OLLAMA_KEEP = '10m'                  # 使わなくなってからモデルをメモリから外すまで
 OLLAMA_IDLE_STOP = 15 * 60           # 自分で起動した Ollama を止めるまでの無使用時間（秒）
 JC_FILES = {'recognizer.js', 'mic.js'}
-PAGES = {'/': 'index.html', '/index.html': 'index.html', '/logs.html': 'logs.html', '/guide.html': 'guide.html'}
+PAGES = {'/': 'index.html', '/index.html': 'index.html', '/logs.html': 'logs.html', '/guide.html': 'guide.html', '/guide-en.html': 'guide-en.html'}
 # 公開ページ（GitHub Pages）からこの補助プログラムを呼んでよいオリジン．ほかのサイトからの呼び出しは断る
 ALLOWED_ORIGINS = {'https://sayonari.github.io'} | {o.strip() for o in os.environ.get('DTYS_ORIGINS', '').split(',') if o.strip()}
 
@@ -69,7 +69,7 @@ SCHEMA = PROMPT['schema']
 
 
 def system_for(req):
-    return PROMPT['system'].replace('{LANG}', str(req.get('langName') or '英語'))
+    return PROMPT['system'].replace('{LANG}', str(req.get('langName') or '英語')).replace('{OUT}', str(req.get('outName') or '日本語'))
 
 
 _lock = threading.Lock()          # 要約は 1 本ずつ

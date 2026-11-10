@@ -31,6 +31,7 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 .top nav a { color: var(--fg-2); text-decoration: none; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; white-space: nowrap; }
 .top nav a:hover { background: var(--surface-2); color: var(--fg); }
 .top nav a.open { background: var(--rec); color: #fff; margin-left: 6px; }
+.top nav a.lang { border: 1px solid var(--line); margin-left: 6px; }
 
 main { max-width: 980px; margin: 0 auto; padding: 0 24px 80px; }
 section { padding: 56px 0 8px; }
@@ -80,5 +81,5 @@ details p { margin: 0 0 12px; color: var(--fg-2); }
 @media (max-width: 760px) {
   .grid3, .grid2 { grid-template-columns: 1fr; }
   .parts { grid-template-columns: 1fr; }
-  .top nav a:not(.open) { display: none; }
+  .top nav a:not(.open):not(.lang) { display: none; }
 }

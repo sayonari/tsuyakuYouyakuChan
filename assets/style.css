@@ -484,3 +484,13 @@ body.pip:not([data-rec="listening"]) #mini { box-shadow: inset 0 0 0 3px color-m
   content: "話が始まると，ここに要約が出ます．\A 何の発表か・どう説明しているか・流れ・要点・全体要約・用語・質問の候補を，自動で更新します．";
   white-space: pre-line; display: block; margin: 12vh auto 0; max-width: 24em; text-align: center; color: var(--muted); font-size: 13.5px; line-height: 1.8; font-family: var(--font-ui);
 }
+
+/* ---- 英語表示（html[lang="en"]）：CSS の content に入れた文言の上書き */
+html[lang="en"] .topic-now:empty::before { content: "When the talk starts, what it is about right now appears here."; }
+html[lang="en"] .line .ja:empty::before { content: "Translating…"; }
+html[lang="en"] #interim:not(.active) .interim-body::before { content: "(Speech being recognized appears here)"; }
+html[lang="en"] .sec.fresh h2::after { content: "Updated"; }
+html[lang="en"] .flow li.latest .h::after { content: "Latest"; }
+html[lang="en"] #right:not(:has(.sec:not(.empty))):not(:has(#sTitle:not(:empty)))::before {
+  content: "When the talk starts, the summary appears here.\A Type of talk, how it is explained, flow, key points, overview, terms and questions to ask are updated automatically.";
+}

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>User Guide - Tsuyaku Youyaku-chan</title>
+<meta name="description" content="How to use Tsuyaku Youyaku-chan: a free web app that transcribes, translates, and summarizes talks and conference presentations in real time">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131a22'/%3E%3Cpath d='M7 16h2M11 11v10M15 8v16M19 12v8M23 14v4' stroke='%2353c7f0' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/guide.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html"><span class="mark"><svg viewBox="0 0 32 32"><path d="M6 16h2.4M10.8 11v10M15.6 7.5v17M20.4 11.5v9M25.2 14v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></span>Tsuyaku Youyaku-chan</a>
+  <nav>
+    <a href="#start">Getting started</a><a href="#screen">The screen</a><a href="#conf">At a conference</a><a href="#online">Zoom / Meet</a><a href="#helper">Helper app</a><a href="#faq">FAQ</a><a class="lang" href="guide.html" hreflang="ja" lang="ja">日本語</a>
+    <a class="open" href="index.html">Open the app</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <p class="kicker">User Guide</p>
+  <h1>Listen. Translate.<br>Summarize.</h1>
+  <p class="lead">Tsuyaku Youyaku-chan is a web app that interprets and summarizes talks in real time. It applies <b>speech recognition</b> and <b>translation</b> to talks, conference presentations, and meetings as they happen, and <b>summarizes what is being discussed right now</b>.<br>Just open the page in desktop Google Chrome. There is nothing to install and no account to create.</p>
+  <div class="cta"><a class="btn primary" href="index.html">Open the app</a><a class="btn" href="#start">See how it works</a></div>
+  <figure class="shot"><img src="assets/img/main.jpg" alt="The app: what is being said now at the top, translation and original on the left, summary on the right" loading="lazy"><figcaption>Screenshots show the Japanese interface.</figcaption></figure>
+</section>
+
+<section id="features">
+  <h2>Features</h2>
+  <div class="grid3">
+    <div class="feat"><h3>Speech recognition</h3><p>Transcribes speech with the speech recognition built into Chrome. Supports more than 20 languages, including English, Japanese, Chinese, and Korean. With on-device recognition, your audio never leaves your computer.</p></div>
+    <div class="feat"><h3>Translation</h3><p>Translates each finalized sentence with Chrome's built-in translation, and shows a first translation of the sentence still being spoken. You can also show the original text only.</p></div>
+    <div class="feat"><h3>Summarization</h3><p>Every few tens of seconds, it refreshes what is being discussed now, what kind of talk it is, how it is explained, the flow, key points, terms, and suggested questions.</p></div>
+    <div class="feat"><h3>Records for conferences</h3><p>Each talk is saved as its own record, organized as "Conference › Session." Use "Next talk" to switch talks without stopping recognition.</p></div>
+    <div class="feat"><h3>Zoom / Meet</h3><p>Can also recognize the audio of a browser tab or screen. A floating mini window that stays on top shows the latest translation and the current topic.</p></div>
+    <div class="feat"><h3>Logs</h3><p>Browse and run full-text search over past records, and reread the summaries and transcripts. Export to Markdown or JSON.</p></div>
+  </div>
+</section>
+
+<section id="start">
+  <h2>Getting started</h2>
+  <ol class="steps">
+    <li><b>Open the app in desktop Google Chrome.</b> It works on both Windows and Mac (use the latest version of Chrome).</li>
+    <li><b>Press the red "Start" button.</b> The first time, allow microphone access.</li>
+    <li><b>Once someone starts speaking, the translation appears on the left, the current topic at the top, and the summary on the right.</b> Press "Stop" to pause. Pressing "Start" again continues the record of the same talk.</li>
+  </ol>
+  <p class="note">The first time you use the app, Chrome automatically downloads the models for speech recognition, translation, and summarization (this can take a few minutes). Until the download finishes, speech recognition runs on Google's cloud.</p>
+</section>
+
+<section id="screen">
+  <h2>The screen</h2>
+  <figure class="shot"><img src="assets/img/main-numbered.jpg" alt="The full screen (numbers 1 to 9 correspond to the descriptions below)" loading="lazy"><figcaption>Screenshots show the Japanese interface.</figcaption></figure>
+  <dl class="parts">
+    <dt>① Start / Stop and status</dt><dd>The red button starts and stops recognition. On the right you see the recognition status (on-device or cloud; microphone or tab audio), the elapsed time of this talk, and the input level.</dd>
+    <dt>② Language</dt><dd>Shows the spoken language and the target language, for example "EN → JA." Click it to open the settings.</dd>
+    <dt>③ Next talk</dt><dd>Closes the record of the current talk and starts the record of the next one. Recognition keeps running. If you press it by mistake, use "Undo" to go back.</dd>
+    <dt>④ Record destination</dt><dd>The "Conference › Session" this talk is saved under. Click it to enter the conference name, session name, and talk title.</dd>
+    <dt>⑤ Mini window, View, Logs, Guide, Settings</dt><dd>The mini window is a small window that stays on top. View sets the display language and text size, and Logs lists past records.</dd>
+    <dt>⑥ Now</dt><dd>Describes what is being said right now in about two sentences. The marker at the upper left shows the position in the overall talk (introduction, proposed method, experiments, and so on), and the row below shows the flow so far. At the upper right you see when the summary was last updated and which engine produced it (¥0 means no extra charge).</dd>
+    <dt>⑦ Transcript</dt><dd>Large text is the translation and small text is the original. The line with a blue bar on its left is the most recent utterance. If new lines arrive while you are scrolled up, a "Latest" button appears.</dd>
+    <dt>⑧ In progress</dt><dd>The sentence being spoken. Once it is finalized, it moves up into the transcript.</dd>
+    <dt>⑨ Summary</dt><dd>Shows what kind of talk it is, how it is explained, the flow, key points, overview, terms, and questions to ask. Items that have just been updated get an "Updated" marker.</dd>
+  </dl>
+  <div class="grid2">
+    <figure class="shot"><img src="assets/img/view.jpg" alt="View menu" loading="lazy"><figcaption>View: translation + original, translation only, or original only; text size</figcaption></figure>
+    <figure class="shot"><img src="assets/img/record.jpg" alt="Record destination menu" loading="lazy"><figcaption>Record destination: conference, session, title</figcaption></figure>
+  </div>
+</section>
+
+<section id="settings">
+  <h2>Settings</h2>
+  <figure class="shot narrow"><img src="assets/img/settings.jpg" alt="Settings screen" loading="lazy"><figcaption>Screenshots show the Japanese interface.</figcaption></figure>
+  <dl class="parts">
+    <dt>Audio input</dt><dd>Choose "Microphone" to listen to a talk in the room with your computer's microphone. Choose "Tab / screen audio" for Meet, Zoom (browser version), and similar.</dd>
+    <dt>Language</dt><dd>Choose the spoken language and the target language. If a talk is in Japanese and you only want a summary, set the spoken language to Japanese and the target language to "No translation."</dd>
+    <dt>Speech recognition</dt><dd>"On-device" keeps your audio on your computer (and works offline). "Cloud" recognizes speech on Google's servers.</dd>
+    <dt>Sentence segmentation</dt><dd>"Continuous" is less likely to drop long sentences (recommended). "One sentence at a time" finalizes faster, but long sentences are more likely to be cut in the middle.</dd>
+    <dt>Summarization engine</dt><dd>Without installing anything, you can summarize with "Gemini Nano (Chrome's built-in AI)." With the helper app, you can also choose Claude (Sonnet, Haiku, Opus) or a local LLM.</dd>
+    <dt>Summary update interval</dt><dd>Choose 20 seconds, 40 seconds, 90 seconds, or manual.</dd>
+  </dl>
+</section>
+
+<section id="conf">
+  <h2>At a conference</h2>
+  <ol class="steps">
+    <li>Before the session starts, click the record destination at the top (the folder icon) and enter the <b>conference name</b> and <b>session name</b>.</li>
+    <li>When the talk begins, press "Start."</li>
+    <li>When the next talk begins, press <b>"Next talk."</b> The conference and session names carry over, and recognition does not stop.</li>
+    <li>To pause during a break, press "Stop." If you resume, you continue the record of the same talk.</li>
+  </ol>
+  <p class="note">Recognition accuracy drops when you are far from the room's speakers. Sitting near the front or using an external microphone improves accuracy.</p>
+</section>
+
+<section id="online">
+  <h2>Using it with Zoom / Meet</h2>
+  <ol class="steps">
+    <li>In the settings, under "Audio input," choose <b>"Tab / screen audio."</b></li>
+    <li>Press "Start" and a dialog appears asking which tab to share. Choose the meeting tab and <b>turn on "Also share tab audio."</b></li>
+    <li>Press <b>"Mini window"</b> and the latest translation and the current topic stay on top. You can place it next to the meeting window.</li>
+  </ol>
+  <p class="note">If you join Zoom in the browser, the same steps work.</p>
+</section>
+
+<section id="logs">
+  <h2>Logs (browsing and searching records)</h2>
+  <figure class="shot"><img src="assets/img/logs.jpg" alt="Logs screen" loading="lazy"><figcaption>Screenshots show the Japanese interface.</figcaption></figure>
+  <p>Open it from "Logs" at the top. Records are arranged as Conference › Session › Talk, and you can run a full-text search. Select a talk to reread its summary, flow, terms, topic over time, and transcript. Click a time in the flow to jump to that point in the transcript. You can also save as Markdown or JSON, and change the classification or title, here.</p>
+  <p class="note">Without the helper app, records are stored inside this browser. To move them to another computer, use "Export all" and "Import" on the Logs screen.</p>
+</section>
+
+<section id="helper">
+  <h2>Helper app (Claude, local LLMs, folder storage)</h2>
+  <p>The helper app is a small program that runs on your computer. While it is running, you can do the following.</p>
+  <ul class="checks">
+    <li><b>Summarize with Claude</b>: If you are logged in to Claude Code, you can summarize with Claude Sonnet and others within your subscription allowance (no extra charge).</li>
+    <li><b>Summarize with a local LLM</b>: Summarize offline with an Ollama model (such as qwen3). The model is loaded only when needed and unloaded when you stop using it.</li>
+    <li><b>Save records to a folder</b>: Records are saved as Markdown and JSON under sessions/conference/session/.</li>
+  </ul>
+  <h3>Setup</h3>
+  <ol class="steps">
+    <li>Get the files from <a href="https://github.com/sayonari/tsuyakuYouyakuChan">GitHub</a> (click "Code" → "Download ZIP", or run <code>git clone https://github.com/sayonari/tsuyakuYouyakuChan.git</code>).</li>
+    <li>You need Python 3 (it comes with macOS). To summarize with Claude, install <a href="https://claude.com/claude-code">Claude Code</a> and log in. To use a local LLM, install <a href="https://ollama.com/">Ollama</a> and a model (for example, <code>ollama pull qwen3:8b</code>).</li>
+    <li>In the downloaded folder, run <code>python3 server.py</code> (on a Mac, you can also double-click <code>start.command</code>).</li>
+    <li>In the app, go to "Settings" → "Helper app" → <b>"Check connection."</b> If Chrome asks for permission to access devices on your local network, allow it.</li>
+  </ol>
+  <p class="note">The helper app listens only inside this computer (127.0.0.1). It rejects summarize, save, and delete requests from any site other than this app.</p>
+</section>
+
+<section id="offline">
+  <h2>Without an internet connection</h2>
+  <p>If you set speech recognition to "On-device" and summarization to "Gemini Nano" or a local LLM, the app works even when you are offline (download the models once beforehand, while connected). If you chose Claude and the connection drops, the helper app summarizes that round with a local LLM instead.</p>
+</section>
+
+<section id="privacy">
+  <h2>Where your data goes</h2>
+  <table class="where">
+    <thead><tr><th>Process</th><th>Where it runs</th></tr></thead>
+    <tbody>
+      <tr><td>Speech recognition (on-device)</td><td>Only on this computer</td></tr>
+      <tr><td>Speech recognition (cloud)</td><td>Your audio is sent to Google's servers</td></tr>
+      <tr><td>Translation</td><td>Only on this computer (built into Chrome)</td></tr>
+      <tr><td>Summarization (Gemini Nano, local LLM)</td><td>Only on this computer</td></tr>
+      <tr><td>Summarization (Claude)</td><td>The transcript text is sent to Anthropic through your own Claude Code</td></tr>
+      <tr><td>Records</td><td>Inside this browser, or in the helper app's folder. They are never published anywhere</td></tr>
+    </tbody>
+  </table>
+  <p class="note">For private meetings, set speech recognition to "On-device" and summarization to "Gemini Nano" or a local LLM, and nothing leaves your computer. Follow the rules of the event and the wishes of the speaker when recording or taking notes.</p>
+</section>
+
+<section id="faq">
+  <h2>FAQ</h2>
+  <details><summary>Does it work on a phone?</summary><p>Not yet. It works only in desktop Google Chrome, because the mobile version of Chrome does not yet have built-in translation and built-in AI.</p></details>
+  <details><summary>Does it cost anything?</summary><p>The app is free. Chrome's speech recognition, translation, and Gemini Nano are also free. Summarizing with Claude uses your Claude subscription allowance (if you run it with an API key, you are billed per use; the summarization engine in the settings then shows "pay-per-use").</p></details>
+  <details><summary>No recognition results appear.</summary><p>Check that microphone access is allowed and that the input level (the bar to the right of the Start button) is moving. If on-device recognition returns nothing, switching "Speech recognition" in the settings to Cloud may fix it.</p></details>
+  <details><summary>Long sentences are cut in the middle.</summary><p>Set "Sentence segmentation" in the settings to "Continuous." Short fragments are merged into the previous line and retranslated.</p></details>
+  <details><summary>No summary appears.</summary><p>Check the summarization engine shown at the upper right. Claude and local LLMs require the helper app. Gemini Nano requires a one-time model download (Chrome does this automatically).</p></details>
+  <details><summary>Two talks got mixed into one record.</summary><p>"Stop → Start" continues the same talk. To start a different talk, press "Next talk." You can fix the classification and title on the Logs screen.</p></details>
+</section>
+
+<footer class="foot">
+  <p>Tsuyaku Youyaku-chan　Developer: Sayonari ω / Ryota Nishimura (university faculty)</p>
+  <p><a href="https://github.com/sayonari/tsuyakuYouyakuChan">GitHub</a> · MIT License</p>
+</footer>
+</main>
+</body>
+</html>
