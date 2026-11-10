@@ -886,6 +886,10 @@
   setRec('idle');
   S.lines.forEach(renderLine);
   logEl.scrollTop = logEl.scrollHeight;
+  // 書体の読み込みで行の高さが変わっても，最新の行まで表示しておく
+  const toBottom = () => { logEl.scrollTop = logEl.scrollHeight; stuck = true; unseen = 0; jumpEl.hidden = true; };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(toBottom);
+  window.addEventListener('load', toBottom, { once: true });
   renderSummary(S.summary, false);
   const lastLine = S.lines[S.lines.length - 1];
   $('#clock').textContent = fmt(lastLine ? (lastLine.tEnd || lastLine.t) : 0);
