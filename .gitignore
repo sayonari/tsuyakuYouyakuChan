@@ -7,3 +7,5 @@ __pycache__/
 .agent/
 CLAUDE.md
 app/
+# PV の素材・書き出し（大きいので公開しない）
+pv/
