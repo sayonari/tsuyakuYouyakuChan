@@ -69,4 +69,8 @@ I18N.add({
   '書き出せませんでした．': 'Could not export.',
   '読み込めませんでした（書き出した JSON を選んでください）．': 'Could not import. Choose a JSON file exported from this app.',
   '追加 {a}件，更新 {u}件，そのまま {s}件．': 'Added {a}, updated {u}, unchanged {s}.',
+  '配色': 'Theme',
+  '配色：自動': 'Theme: Auto',
+  '配色：ライト': 'Theme: Light',
+  '配色：ダーク': 'Theme: Dark',
 });

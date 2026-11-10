@@ -713,6 +713,7 @@
     pipWin.document.body.appendChild(document.querySelector('body > svg').cloneNode(true));
     pipWin.document.title = T('学会通訳要約ちゃん');
     pipWin.document.documentElement.lang = I18N.lang;
+    Theme.apply(Theme.get(), pipWin.document);
     pipWin.document.body.className = 'pip';
     pipWin.document.body.dataset.rec = recState;
     mini.hidden = false;
@@ -908,6 +909,10 @@
     if (md) md.content = T('講演・学会発表を，その場で音声認識・翻訳・要約する無料の Web アプリ（Chrome 内蔵 AI を利用）');
   }
   $$('input[name="uilang"]').forEach((r) => { r.checked = r.value === I18N.lang; r.addEventListener('change', () => I18N.set(r.value)); });
+  // 配色（自動・ライト・ダーク）．小窓にも同じ配色を付ける
+  const syncTheme = (t) => { $$('input[name="theme"]').forEach((r) => { r.checked = r.value === t; }); if (pipWin) Theme.apply(t, pipWin.document); };
+  $$('input[name="theme"]').forEach((r) => r.addEventListener('change', () => Theme.set(r.value)));
+  Theme.onChange(syncTheme); syncTheme(Theme.get());
   fillLangSelects();
   applyView();
   setRec('idle');

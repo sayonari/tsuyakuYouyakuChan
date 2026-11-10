@@ -7,6 +7,7 @@
 <title>学会通訳要約ちゃん</title>
 <meta name="description" content="講演・学会発表を，その場で音声認識・翻訳・要約する無料の Web アプリ（Chrome 内蔵 AI を利用）">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131a22'/%3E%3Cpath d='M7 16h2M11 11v10M15 8v16M19 12v8M23 14v4' stroke='%2353c7f0' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="assets/theme.js"></script>
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/i18n.js"></script>
 </head>
@@ -92,6 +93,14 @@
     <div class="seg" role="radiogroup" aria-label="表示言語">
       <label><input type="radio" name="uilang" value="ja"><span data-noi18n>日本語</span></label>
       <label><input type="radio" name="uilang" value="en"><span data-noi18n>English</span></label>
+    </div>
+  </div>
+  <div class="pop-sec">
+    <div class="pop-label">配色</div>
+    <div class="seg" role="radiogroup" aria-label="配色">
+      <label><input type="radio" name="theme" value="auto"><span>自動</span></label>
+      <label><input type="radio" name="theme" value="light"><span>ライト</span></label>
+      <label><input type="radio" name="theme" value="dark"><span>ダーク</span></label>
     </div>
   </div>
   <div class="pop-sec">

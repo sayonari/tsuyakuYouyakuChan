@@ -32,6 +32,10 @@ I18N.add({
 
   // ---- 表示メニュー
   '表示言語': 'Interface language',
+  '配色': 'Theme',
+  '自動': 'Auto',
+  'ライト': 'Light',
+  'ダーク': 'Dark',
   '言語': 'Language',
   '表示する言語': 'Language to show',
   '訳＋原文': 'Both',

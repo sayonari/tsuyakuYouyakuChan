@@ -361,3 +361,12 @@
     await route();
   })();
 })();
+
+// 配色（自動・ライト・ダーク）．記録画面の「表示」と同じ設定を使う
+(() => {
+  const ts = document.getElementById('themeSel');
+  if (!ts || !window.Theme) return;
+  ts.value = Theme.get();
+  ts.addEventListener('change', () => Theme.set(ts.value));
+  Theme.onChange((t) => { ts.value = t; });
+})();

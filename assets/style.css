@@ -21,8 +21,18 @@
   --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f3f5f8; --surface: #ffffff; --surface-2: #f1f3f6; --surface-3: #e7ebf0;
+    --line: #d8dee6; --line-soft: #e7ebf0;
+    --fg: #16202b; --fg-2: #3a4655; --muted: #667385; --en: #56687c;
+    --accent: #0a6fae; --accent-ink: #ffffff; --accent-soft: rgba(10, 111, 174, .08);
+    --rec: #d93a3f; --rec-soft: rgba(217, 58, 63, .1);
+    --interim: #9a5b00; --ok: #16864d; --warn: #9a5800; --err: #c42b2b;
+    --shadow-pop: 0 18px 48px rgba(20, 30, 45, .18), 0 2px 6px rgba(20, 30, 45, .08);
+  }
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     color-scheme: light;
     --bg: #f3f5f8; --surface: #ffffff; --surface-2: #f1f3f6; --surface-3: #e7ebf0;
     --line: #d8dee6; --line-soft: #e7ebf0;

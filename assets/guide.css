@@ -7,8 +7,14 @@
   --font-ui: "Avenir Next", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
   --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
 }
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f3f5f8; --surface: #ffffff; --surface-2: #f1f3f6; --line: #d8dee6; --line-soft: #e7ebf0;
+    --fg: #16202b; --fg-2: #3a4655; --muted: #667385;
+    --accent: #0a6fae; --accent-ink: #ffffff; --accent-soft: rgba(10, 111, 174, .08); --rec: #d93a3f;
+  }
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     color-scheme: light;
     --bg: #f3f5f8; --surface: #ffffff; --surface-2: #f1f3f6; --line: #d8dee6; --line-soft: #e7ebf0;
     --fg: #16202b; --fg-2: #3a4655; --muted: #667385;
