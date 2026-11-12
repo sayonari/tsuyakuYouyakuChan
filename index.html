@@ -205,6 +205,22 @@
       </section>
 
       <section class="set">
+        <h3>発表の切り替わり</h3>
+        <div class="seg" role="radiogroup" aria-label="発表の切り替わり">
+          <label><input type="radio" name="autoSplit" value="auto"><span>自動で分ける</span></label>
+          <label><input type="radio" name="autoSplit" value="ask"><span>確認してから分ける</span></label>
+          <label><input type="radio" name="autoSplit" value="off"><span>分けない</span></label>
+        </div>
+        <label class="field inline"><span>発表 1 件の時間の目安</span>
+          <select id="selTalkMin">
+            <option value="0">指定しない</option><option value="5">5 分</option><option value="10">10 分</option><option value="12">12 分</option><option value="15">15 分</option>
+            <option value="20">20 分</option><option value="25">25 分</option><option value="30">30 分</option><option value="45">45 分</option><option value="60">60 分</option><option value="90">90 分</option>
+          </select>
+        </label>
+        <p class="hint">要約のたびに，別の発表（会議なら別の議題）が始まっていないかを内容と時間から調べ，始まっていたらそこで記録を分けます（Claude・ローカル LLM で要約しているとき）．「自動で分ける」は確認を出し，15 秒たつと分けます．分けたあとも「取り消す」で元に戻せます．</p>
+      </section>
+
+      <section class="set">
         <h3>要約の更新間隔</h3>
         <div class="seg" role="radiogroup" aria-label="要約の更新間隔">
           <label><input type="radio" name="interval" value="20"><span>20 秒</span></label>
@@ -250,7 +266,7 @@
 <main data-pane="left">
   <!-- ================= 書き起こし ================= -->
   <section id="left" aria-label="書き起こしと翻訳">
-    <div id="notice" hidden><span class="notice-text"></span><button type="button" class="tbtn small notice-action" hidden></button><button type="button" class="notice-close icon-btn" aria-label="閉じる"><svg><use href="#i-close"/></svg></button></div>
+    <div id="notice" hidden><span class="notice-text"></span><button type="button" class="tbtn small notice-action" hidden></button><button type="button" class="tbtn small ghost notice-action2" hidden></button><button type="button" class="notice-close icon-btn" aria-label="閉じる"><svg><use href="#i-close"/></svg></button></div>
     <div id="log">
       <div id="empty" class="empty">
         <div class="empty-mark"><svg><use href="#i-logo"/></svg></div>

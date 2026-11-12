@@ -14,7 +14,7 @@
 <header class="top">
   <a class="brand" href="index.html"><span class="mark"><svg viewBox="0 0 32 32"><path d="M6 16h2.4M10.8 11v10M15.6 7.5v17M20.4 11.5v9M25.2 14v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></span>学会通訳要約ちゃん</a>
   <nav>
-    <a href="#start">はじめかた</a><a href="#screen">画面の見方</a><a href="#conf">学会で</a><a href="#online">Zoom・Meet</a><a href="#helper">補助プログラム</a><a href="#faq">よくある質問</a><a class="lang" href="guide-en.html" hreflang="en" lang="en">English</a>
+    <a href="#movies">動画</a><a href="#start">はじめかた</a><a href="#screen">画面の見方</a><a href="#conf">学会で</a><a href="#online">Zoom・Meet</a><a href="#helper">補助プログラム</a><a href="#faq">よくある質問</a><a class="lang" href="guide-en.html" hreflang="en" lang="en">English</a>
     <a class="open" href="index.html">アプリを開く</a>
   </nav>
 </header>
@@ -28,11 +28,21 @@
   <figure class="shot"><img src="assets/img/main.jpg" alt="アプリの画面：上に「いま話されていること」，左に訳と原文，右に要約" loading="lazy"></figure>
 </section>
 
+<section id="movies">
+  <h2>動画で見る</h2>
+  <div class="movies">
+    <figure class="shot"><video controls preload="none" playsinline poster="assets/video/concept.jpg" src="assets/video/concept.mp4"></video><figcaption><b>どんな場面で使うか</b>（1 分 10 秒）　国際学会の会場，自宅でのオンライン聴講，日本語の発表の要約．会場と人物は AI で作った架空の映像，画面はアプリの実際の出力です．</figcaption></figure>
+    <figure class="shot"><video controls preload="none" playsinline poster="assets/video/guide.jpg" src="assets/video/guide.mp4"></video><figcaption><b>使い方の説明</b>（3 分 53 秒）　開始から，訳・要約の見方，要約エンジンの選び方，学会での記録，ログまで．</figcaption></figure>
+  </div>
+  <p class="note">動画の画面は少し前の版です．いまの版は，要約を広く，書き起こしを小さく表示します．</p>
+</section>
+
 <section id="features">
   <h2>できること</h2>
   <div class="grid3">
     <div class="feat"><h3>音声認識</h3><p>Chrome に入っている音声認識で，話し言葉を文字にします．英語・日本語・中国語・韓国語など 20 以上の言語に対応．端末内で認識すれば，音声はパソコンの外に出ません．</p></div>
     <div class="feat"><h3>翻訳</h3><p>確定した文を，Chrome 内蔵の翻訳で訳します．話している途中の文も先に訳して出します．訳さずに原文だけ表示することもできます．</p></div>
+    <div class="feat"><h3>発表ごとに記録を分ける</h3><p>要約のたびに，別の発表（会議なら別の議題）が始まっていないかを内容と時間から調べます．座長や進行役の言葉が無くても，話の中身で判断します．始まっていたら確認を出し，その時刻で記録を自動で分けます（取り消せます）．</p></div>
     <div class="feat"><h3>要約</h3><p>数十秒ごとに，いま話されていること・何の発表か・どう説明しているか・流れ・要点・用語・質問の候補をまとめ直します．</p></div>
     <div class="feat"><h3>学会向けの記録</h3><p>発表ごとに記録を分け，「学会 › セッション」で整理して保存します．「次の発表へ」で認識を止めずに切り替えられます．</p></div>
     <div class="feat"><h3>Zoom・Meet</h3><p>ブラウザのタブや画面の音声も認識できます．常に手前に出る「小窓」に，最新の訳と「いまの話題」を出せます．</p></div>
@@ -73,12 +83,14 @@
 <section id="settings">
   <h2>設定</h2>
   <figure class="shot narrow"><img src="assets/img/settings.jpg" alt="設定画面" loading="lazy"></figure>
+  <figure class="shot narrow"><img src="assets/img/settings-split.jpg" alt="設定画面：発表の切り替わり，要約の更新間隔" loading="lazy"><figcaption>設定の下のほう：発表の切り替わり，要約の更新間隔</figcaption></figure>
   <dl class="parts">
     <dt>音声入力</dt><dd>「マイク」は会場の講演をパソコンのマイクで聞くとき．「タブ・画面の音声」は Meet・Zoom（ブラウザ版）などのとき．</dd>
     <dt>言語</dt><dd>話される言語と翻訳先を選びます．日本語の発表で要約だけ欲しいときは，話される言語を「日本語」，翻訳先を「翻訳しない」にします．</dd>
     <dt>音声認識</dt><dd>「端末内」は音声をパソコンの外に出しません（オフラインでも動きます）．「クラウド」は Google のサーバで認識します．</dd>
     <dt>文の区切り方</dt><dd>「連続」は長い文も取りこぼしにくい設定です（おすすめ）．「1 文ごと」は確定が速い代わりに，長い文が途中で切れやすくなります．</dd>
     <dt>要約エンジン</dt><dd>何もインストールしなくても「Gemini Nano（Chrome 内蔵 AI）」で要約できます．補助プログラムがあれば，Claude（Sonnet・Haiku・Opus）やローカル LLM も選べます．</dd>
+    <dt>発表の切り替わり</dt><dd>要約のたびに，別の発表（会議なら別の議題）が始まっていないかを調べ，始まっていたらその時刻で記録を分けます．「自動で分ける」は確認を出して 15 秒後に分けます．「確認してから分ける」「分けない」も選べます．発表 1 件の時間の目安を入れると，判定の手掛かりになります．Claude・ローカル LLM で要約しているときに働きます．</dd>
     <dt>要約の更新間隔</dt><dd>20 秒・40 秒・90 秒・手動から選びます．</dd>
   </dl>
 </section>
@@ -88,7 +100,8 @@
   <ol class="steps">
     <li>セッションが始まる前に，上の記録先（フォルダの印）を押して，<b>学会名</b>と<b>セッション名</b>を入れます．</li>
     <li>発表が始まったら「開始」．</li>
-    <li>次の発表に移ったら <b>「次の発表へ」</b>．学会名とセッション名は引き継がれます．認識は止まりません．</li>
+    <li>次の発表に移ると，アプリが内容から気づいて確認を出し，<b>15 秒後にその時刻で記録を分けます</b>（Claude・ローカル LLM で要約しているとき）．違っていたら「分けない」，分けたあとでも「取り消す」で戻せます．</li>
+    <li>自分で切り替えたいときは <b>「次の発表へ」</b>．どちらの場合も学会名とセッション名は引き継がれ，認識は止まりません．</li>
     <li>休憩で止めたいときは「停止」．再開しても同じ発表の続きになります．</li>
   </ol>
   <p class="note">会場のスピーカーから遠いと認識が落ちます．前の方の席に座るか，外付けマイクを使うと精度が上がります．</p>

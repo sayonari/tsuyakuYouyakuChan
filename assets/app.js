@@ -3,6 +3,7 @@
  *                    → 一定間隔で要約（Claude／ローカル LLM（Ollama）＝補助プログラム経由，または Chrome 内蔵 AI（Gemini Nano））
  *
  * 記録の単位は「発表」．停止→開始では切り替えない（同じ発表の続き）．「次の発表へ」で次の記録を始める．
+ * 要約が「途中から別の発表が始まっている」と判断したときは，確認を出してその行から記録を分ける（設定「発表の切り替わり」）．
  * 保存先は DtysStore（補助プログラムがあればこの Mac のフォルダ，無ければブラウザ内）．
  */
 (() => {
@@ -46,6 +47,7 @@
     srcLang: 'en-US', dstLang: 'ja',
     show: 'both', font: 17, sumFont: 16, pipFont: 20, pipW: 560, pipH: 320,
     lastEvent: '', lastGroup: '', helper: false,
+    autoSplit: 'auto', talkMin: 0,    // 発表の切り替わり：'auto'（確認を出して自動で分ける）｜'ask'（確認してから）｜'off'
   }, loadJSON(LS_SET));
   // 画面の配分を「要約を主・書き起こしを従」に変えた（2026-11-12）．以前の既定の文字の大きさを一度だけ新しい既定に直す
   if (settings.layout !== 2) { settings.font = 17; settings.sumFont = 16; settings.layout = 2; }
@@ -94,7 +96,8 @@
   // ---------------------------------------------------------------- お知らせ（本文を動かさない重ね表示）
   let noticeTimer = null, actionUntil = 0;
   function notice(msg, cls = 'info', ms = 0, action = null) {
-    const el = $('#notice'), act = $('.notice-action', el);
+    const el = $('#notice'), act = $('.notice-action', el), act2 = $('.notice-action2', el);
+    const actions = action ? [].concat(action) : [];        // 操作は 2 つまで（1 つ目が主）
     // 「取り消す」などの操作付きのお知らせが出ている間は，ただのお知らせ（info）で上書きしない
     if (msg && !action && cls === 'info' && !el.hidden && Date.now() < actionUntil) return;
     clearTimeout(noticeTimer);
@@ -102,9 +105,12 @@
     if (!msg) { el.hidden = true; return; }
     el.className = cls;
     $('.notice-text', el).textContent = msg;
-    act.hidden = !action;
-    act.onclick = action ? () => { notice(''); action.fn(); } : null;
-    if (action) act.textContent = action.label;
+    [act, act2].forEach((b, i) => {
+      const a = actions[i];
+      b.hidden = !a;
+      b.onclick = a ? () => { notice(''); a.fn(); } : null;
+      if (a) b.textContent = a.label;
+    });
     el.hidden = false;
     if (ms) noticeTimer = setTimeout(() => { el.hidden = true; }, ms);
   }
@@ -405,10 +411,10 @@
     const el = $('#sumState'); el.textContent = text; el.className = 'sum-state ' + cls; el.title = title;
     $('#btnSumNow').disabled = cls === 'busy';
   }
-  function buildTranscript(limit) {
+  function buildTranscript(limit, sess = S) {
     const out = []; let n = 0;
-    for (let i = S.lines.length - 1; i >= 0; i--) {
-      const s = `[${fmt(S.lines[i].t)}] ${S.lines[i].en}`;
+    for (let i = sess.lines.length - 1; i >= 0; i--) {
+      const s = `[${fmt(sess.lines[i].t)}] ${sess.lines[i].en}`;
       if (n + s.length > limit) { out.push('（…これより前は省略．「前回の状態」の flow を参照）'); break; }
       out.push(s); n += s.length + 1;
     }
@@ -420,13 +426,21 @@
   const outLangName = () => (translating() ? dstInfo(settings.dstLang)[1] : I18N.lang === 'en' ? '英語' : '日本語');
   /** Gemini Nano の出力言語（en・ja・es のどれか） */
   const outLangCode = () => { const c = (translating() ? settings.dstLang : I18N.lang).split('-')[0]; return ['en', 'ja', 'es'].includes(c) ? c : 'en'; };
-  async function summarizeServer() {
+  /** sess：要約する記録．fresh：前回の要約を土台にせず作り直す（記録を分けた直後．切り替わりも調べない） */
+  async function summarizeServer(sess = S, fresh = false) {
     if (!Store.api) throw new Error(T('補助プログラムに接続していません（設定 →「補助プログラム」）'));
+    const limit = isOllama() ? 24000 : 60000;
+    const transcript = buildTranscript(limit, sess);
+    const cut = transcript.startsWith('（…');                  // 長くて前半を省いた：前回の要約が要る
+    const last = sess.lines[sess.lines.length - 1];
     const r = await fetch(Store.api + '/api/summarize', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: settings.engine, prev: S.summary, elapsed: fmt(Date.now() - S.startedAt), langName: srcInfo(settings.srcLang)[1], outName: outLangName(),
-        transcript: buildTranscript(isOllama() ? 24000 : 60000),
+        model: settings.engine, prev: fresh && !cut ? null : sess.summary,
+        elapsed: fmt(sess === S ? Date.now() - sess.startedAt : (last ? last.tEnd || last.t : 0)), langName: srcInfo(settings.srcLang)[1], outName: outLangName(),
+        transcript,
+        talkMin: settings.talkMin || 0, noSplit: fresh || settings.autoSplit === 'off',
+        noSplitBefore: sess.noSplitBefore ? fmt(sess.noSplitBefore) : '',
         fallback: !isOllama() && preferredLocal() ? 'ollama:' + preferredLocal() : '',   // Claude がネットにつながらないときの代わり
       }),
     });
@@ -498,6 +512,7 @@
     setSumState(isOllama() && !lastSumOkAt ? T('要約を作成中…（初回はモデルの読み込みで時間がかかります）') : T('要約を作成中…'), 'busy');
     try {
       const s = settings.engine === 'nano' ? await summarizeNano() : await summarizeServer();
+      const sp = s && s.split; if (s) delete s.split;         // 切り替わりの判定は要約とは別に扱う（記録には残さない）
       if (s && !sess.discarded) {
         sess.summary = s;
         if (s.now) sess.nowLog.push({ t: Date.now() - sess.startedAt, phase: s.phase || '', now: s.now });
@@ -505,6 +520,7 @@
           lastSumChars = charsAt; lastSumOkAt = Date.now();
           sumInfo = T('{e}・{s} 秒', { e: sumInfoNote || engineLabel(), s: ((performance.now() - t0) / 1000).toFixed(1) });
           renderSummary(s, true);
+          if (settings.engine !== 'nano') considerSplit(sess, sp);
         }
         saveSession(sess);
       } else if (sess === S) {
@@ -661,6 +677,7 @@
   }
   async function nextTalk() {
     const prev = S;
+    cancelSplit(true);
     if (!prev.lines.length) { notice(T('この発表はまだ書き起こしがないので，このまま使います．'), 'info', 4000); return; }
     for (let k = 0; k < 30 && pendingTr > 0; k++) await new Promise((r) => setTimeout(r, 100));   // 訳の待ちを少し待つ
     saveSession(prev);
@@ -682,11 +699,124 @@
     cur.nowLog.forEach((n) => { n.t += off; prev.nowLog.push(n); });
     prev.chars += cur.chars; prev.drops.push(...cur.drops);
     cur.discarded = true;                                     // 遅れて返ってくる要約などで書き直さない
+    bump(prev);                                               // 分けた直後の作り直しが返ってきても使わない
     if (cur.lines.length) Store.remove(cur.id).catch(() => {});
     S = prev;
     resetView();
     saveSession();
     notice(T('元の発表の記録に戻しました．'), 'info', 4000);
+  }
+
+  // ---------------------------------------------------------------- 発表の切り替わりで記録を分ける（要約が見つけた切り替わり）
+  const SPLIT_WAIT = 15, SPLIT_MIN_MS = 60000;
+  let pendingSplit = null;                                    // { sess, line, timer }
+  const gen = new WeakMap();                                  // 記録ごとの版（分けた・戻したで進む．古い要約の結果を捨てるため）
+  const bump = (sess) => gen.set(sess, (gen.get(sess) || 0) + 1);
+  function parseClock(t) {
+    const m = /^\s*(?:(\d+):)?(\d{1,3}):(\d{2})\s*$/.exec(String(t || ''));
+    return m ? ((Number(m[1] || 0) * 60 + Number(m[2])) * 60 + Number(m[3])) * 1000 : -1;
+  }
+  function cancelSplit(hide) {
+    if (!pendingSplit) return;
+    clearInterval(pendingSplit.timer); pendingSplit = null;
+    if (hide) notice('');
+  }
+  /** 要約が返した split（{ t: 'mm:ss', reason }）を確かめ，確認を出す（'auto' は 15 秒後に自動で分ける） */
+  function considerSplit(sess, sp) {
+    if (settings.autoSplit === 'off' || pendingSplit || sess !== S || !sp || !sp.t) return;
+    const ms = parseClock(sp.t);
+    if (ms < 0) return;
+    const idx = sess.lines.findIndex((l) => Math.floor(l.t / 1000) * 1000 >= ms);
+    if (idx < 2 || sess.lines[idx].t < SPLIT_MIN_MS) return;       // 前の発表と言えるだけの量が無い
+    const line = sess.lines[idx];
+    if (line.t <= (sess.noSplitBefore || 0)) return;               // 「分けない」と答えた切り替わり
+    let reason = String(sp.reason || '').trim().replace(/[．。.]+$/, '');
+    if (reason.length > 60) reason = reason.slice(0, 59) + '…';
+    const head = T('{t} ごろから別の発表・議題が始まったようです', { t: fmt(line.t) }) + (reason ? T('（{r}）', { r: reason }) : '') + T('．');
+    const no = { label: T('分けない'), fn: () => { cancelSplit(); sess.noSplitBefore = line.t; saveSession(sess); } };
+    const go = () => { cancelSplit(); splitAt(sess, line); };
+    if (settings.autoSplit === 'ask') {
+      notice(head + T('そこで記録を分けますか？'), 'info', 120000, [{ label: T('分ける'), fn: go }, no]);
+      pendingSplit = { sess, line, timer: setInterval(() => {
+        if (S !== sess) return cancelSplit(true);
+        if ($('#notice').hidden || $('.notice-action2').hidden) { cancelSplit(); sess.noSplitBefore = line.t; }   // 閉じた・時間切れ・別のお知らせに替わった：分けない
+      }, 1000) };
+      return;
+    }
+    let left = SPLIT_WAIT;
+    const text = () => head + T('{n} 秒後に，そこで記録を分けます．', { n: left });
+    notice(text(), 'info', (SPLIT_WAIT + 5) * 1000, [{ label: T('今すぐ分ける'), fn: go }, no]);
+    pendingSplit = { sess, line, timer: setInterval(() => {
+      if (S !== sess) return cancelSplit(true);
+      if ($('#notice').hidden || $('.notice-action2').hidden) { cancelSplit(); sess.noSplitBefore = line.t; return; }   // × で閉じた・別のお知らせに替わった：分けない
+      left--;
+      if (left <= 0) return go();
+      $('#notice .notice-text').textContent = text();
+    }, 1000) };
+  }
+  /** line から後ろを新しい記録へ移し，画面は新しい記録に切り替える（認識は止めない）．両方の要約を作り直す */
+  async function splitAt(prev, line) {
+    if (prev !== S || prev.discarded) return;
+    for (let k = 0; k < 30 && pendingTr > 0; k++) await new Promise((r) => setTimeout(r, 100));   // 訳の待ちを少し待つ
+    const idx = prev.lines.indexOf(line);
+    if (prev !== S || idx < 1) return;
+    const t0 = line.t;
+    const cur = newSession();
+    cur.startedAt = prev.startedAt + t0;
+    cur.meta.event = prev.meta.event || ''; cur.meta.group = prev.meta.group || '';
+    cur.lang = prev.lang;
+    cur.lines = prev.lines.splice(idx);
+    cur.lines.forEach((l) => { l.t -= t0; if (l.tEnd) l.tEnd -= t0; });
+    const ni = prev.nowLog.findIndex((n) => n.t >= t0);
+    if (ni >= 0) { cur.nowLog = prev.nowLog.splice(ni); cur.nowLog.forEach((n) => { n.t -= t0; }); }
+    cur.drops = prev.drops.filter((d) => d.t >= t0).map((d) => Object.assign({}, d, { t: d.t - t0 }));
+    prev.drops = prev.drops.filter((d) => d.t < t0);
+    cur.chars = cur.lines.reduce((a, l) => a + l.en.length, 0);
+    prev.chars = prev.lines.reduce((a, l) => a + l.en.length, 0);
+    bump(prev); bump(cur);
+    S = cur; restored = false;
+    resetView();
+    saveSession(prev); saveSession(cur);
+    const prevTitle = (prev.meta.title || (prev.summary && prev.summary.title) || '').trim();
+    const shortT = prevTitle.length > 28 ? prevTitle.slice(0, 27) + '…' : prevTitle;
+    notice(prevTitle ? T('「{p}」の記録を {t} で閉じ，続きを次の発表の記録に分けました．', { p: shortT, t: fmt(t0) }) : T('{t} で記録を分け，続きを次の発表の記録にしました．', { t: fmt(t0) }),
+      'info', 60000, { label: T('取り消す'), fn: () => { prev.noSplitBefore = t0; undoNext(prev); } });
+    await resummarize(prev);                                   // 閉じた発表：混ざっていた次の発表の分を除いた最終の要約
+    await resummarize(cur);                                    // 新しい発表：最初の要約
+  }
+  /** 分けた直後の作り直し．分割が取り消されていたら結果を捨てる */
+  async function resummarize(sess) {
+    if (settings.engine === 'nano' || !Store.api || !sess.lines.length) return;
+    const g = gen.get(sess);
+    const stale = () => sess.discarded || gen.get(sess) !== g;
+    for (let k = 0; k < 600 && sumBusy; k++) await new Promise((r) => setTimeout(r, 200));
+    if (sumBusy || stale()) return;
+    sumBusy = true;
+    const t0 = performance.now(), charsAt = sess.chars;
+    if (sess === S) setSumState(T('要約を作成中…'), 'busy');
+    try {
+      let s = null;
+      for (let k = 0; k < 20 && !s && !stale(); k++) {         // 補助プログラムが前の要約を処理中なら待つ
+        s = await summarizeServer(sess, true);
+        if (!s) await new Promise((r) => setTimeout(r, 1500));
+      }
+      if (s) delete s.split;
+      if (!s || stale()) return;
+      sess.summary = s;
+      if (sess === S) {
+        if (s.now) sess.nowLog.push({ t: Date.now() - sess.startedAt, phase: s.phase || '', now: s.now });
+        lastSumChars = charsAt; lastSumOkAt = Date.now();
+        sumInfo = T('{e}・{s} 秒', { e: sumInfoNote || engineLabel(), s: ((performance.now() - t0) / 1000).toFixed(1) });
+        renderSummary(s, false);
+      }
+      saveSession(sess);
+    } catch (e) {
+      console.warn('[summary] 分けたあとの作り直し', e);
+      if (sess === S) setSumState(T('要約に失敗：{m}', { m: e.message }), 'err');
+    } finally {
+      sumBusy = false; lastSumAt = Date.now();
+      renderSumAge();
+    }
   }
 
   // ---------------------------------------------------------------- 保存（DtysStore：補助プログラムのフォルダ or ブラウザ内）
@@ -852,6 +982,8 @@
     $$('input[name="recog"]').forEach((r) => { r.checked = r.value === settings.recog; });
     $$('input[name="mode"]').forEach((r) => { r.checked = r.value === settings.mode; });
     $$('input[name="interval"]').forEach((r) => { r.checked = Number(r.value) === Number(settings.interval); });
+    $$('input[name="autoSplit"]').forEach((r) => { r.checked = r.value === settings.autoSplit; });
+    $('#selTalkMin').value = String(settings.talkMin || 0);
     $('#selSrc').value = settings.srcLang; $('#selDst').value = settings.dstLang;
     renderEngines();
     renderHelperState(Store.mode === 'server' ? 'ok' : 'ng');
@@ -884,6 +1016,8 @@
   $$('input[name="recog"]').forEach((r) => r.addEventListener('change', () => { settings.recog = r.value; saveSettings(); }));
   $$('input[name="mode"]').forEach((r) => r.addEventListener('change', () => { settings.mode = r.value; saveSettings(); }));
   $$('input[name="interval"]').forEach((r) => r.addEventListener('change', () => { settings.interval = Number(r.value); saveSettings(); }));
+  $$('input[name="autoSplit"]').forEach((r) => r.addEventListener('change', () => { settings.autoSplit = r.value; saveSettings(); if (r.value === 'off') cancelSplit(true); }));
+  $('#selTalkMin').addEventListener('change', () => { settings.talkMin = Number($('#selTalkMin').value) || 0; saveSettings(); });
   $('#btnHelper').addEventListener('click', async () => {
     const r = await connectHelper(true);
     if (r.mode !== 'server') notice(T('補助プログラムが見つかりませんでした．説明書の「補助プログラム」の手順で起動してから，もう一度押してください．'), 'warn', 12000);
@@ -911,7 +1045,7 @@
   }));
 
   // 動作確認用（コンソールから模擬の文を流し込む）
-  window.__dtys = { addLine, onInterim, summarize, nextTalk, setRec, notice, get session() { return S; } };
+  window.__dtys = { addLine, onInterim, summarize, nextTalk, considerSplit, setRec, notice, get session() { return S; } };
 
   // ---------------------------------------------------------------- 初期化
   /** 要素の中の日本語の文字ノードを辞書で置き換える（I18N.apply が対象外にする部分用） */

@@ -82,9 +82,18 @@ def build_prompt(req):
     prev_txt = json.dumps(prev, ensure_ascii=False) if prev else '（なし．今回が最初）'
     tr = str(req.get('transcript', ''))
     recent = '\n'.join(tr.strip().split('\n')[-8:])      # 小さいモデルが「いま」を冒頭の話と取り違えないよう，直近を別に示す
+    hint = []
+    if req.get('talkMin'):
+        hint.append(f"発表時間の目安：1 件あたりおよそ {req.get('talkMin')} 分（質疑を含む）")
+    if req.get('noSplitBefore'):
+        hint.append(f"{req.get('noSplitBefore')} までは同じ発表であると利用者が確認済み（それ以前を split.t にしない）")
+    if req.get('noSplit'):
+        hint.append('今回は切り替わりを調べない（split.t は必ず空文字）')
+    hint_txt = ('# 発表の切り替わりの判定\n' + '\n'.join(hint) + '\n\n') if hint else ''
     return (
         f"# 前回の状態\n{prev_txt}\n\n"
         f"# 経過時間\n開始から {req.get('elapsed', '?')}\n\n"
+        f"{hint_txt}"
         f"# 書き起こし（[経過時間] 原文）\n{tr}\n\n"
         f"# 直近の発言（now と phase はここを基に書く）\n{recent}\n\n"
         "上の指示どおり JSON だけを出力してください．"

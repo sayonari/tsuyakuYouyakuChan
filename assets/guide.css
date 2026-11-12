@@ -56,6 +56,9 @@ h3 { font-size: 16px; margin: 20px 0 6px; }
 
 .shot { margin: 18px 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(0, 0, 0, .35); background: var(--surface); }
 .shot img { display: block; width: 100%; height: auto; }
+.shot video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+.movies { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 18px; align-items: start; }
+.movies .shot { margin: 0; }
 .shot figcaption { font-size: 13px; color: var(--muted); padding: 8px 14px; border-top: 1px solid var(--line-soft); }
 .shot.narrow { max-width: 760px; margin-left: auto; margin-right: auto; }
 

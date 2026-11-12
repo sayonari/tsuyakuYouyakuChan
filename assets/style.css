@@ -391,6 +391,7 @@ body.no-tr #log .ja, body.no-tr #interim .ja { display: none; }
 #notice.err::before { background: var(--err); }
 @keyframes drop { from { opacity: 0; transform: translateY(-6px); } }
 .notice-text { flex: 1; }
+.field.inline { grid-template-columns: auto minmax(0, 12em); align-items: center; gap: 12px; margin: 12px 0 0; }
 
 /* 要約の詳細 */
 #right { overflow-y: auto; padding: 0 22px 30px; background: var(--surface); font-family: var(--font-ja); font-size: var(--sum-size); line-height: 1.72; }

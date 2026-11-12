@@ -14,7 +14,7 @@
 <header class="top">
   <a class="brand" href="index.html"><span class="mark"><svg viewBox="0 0 32 32"><path d="M6 16h2.4M10.8 11v10M15.6 7.5v17M20.4 11.5v9M25.2 14v4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></span>Tsuyaku Youyaku-chan</a>
   <nav>
-    <a href="#start">Getting started</a><a href="#screen">The screen</a><a href="#conf">At a conference</a><a href="#online">Zoom / Meet</a><a href="#helper">Helper app</a><a href="#faq">FAQ</a><a class="lang" href="guide.html" hreflang="ja" lang="ja">日本語</a>
+    <a href="#movies">Videos</a><a href="#start">Getting started</a><a href="#screen">The screen</a><a href="#conf">At a conference</a><a href="#online">Zoom / Meet</a><a href="#helper">Helper app</a><a href="#faq">FAQ</a><a class="lang" href="guide.html" hreflang="ja" lang="ja">日本語</a>
     <a class="open" href="index.html">Open the app</a>
   </nav>
 </header>
@@ -28,11 +28,21 @@
   <figure class="shot"><img src="assets/img/en/main.jpg" alt="The app: what is being said now at the top, the transcript on the left, the summary on the right" loading="lazy"><figcaption>Shown with translation turned off and the summary in English.</figcaption></figure>
 </section>
 
+<section id="movies">
+  <h2>Videos</h2>
+  <div class="movies">
+    <figure class="shot"><video controls preload="none" playsinline poster="assets/video/concept.jpg" src="assets/video/concept.mp4"></video><figcaption><b>Where you would use it</b> (1 min 10 s, narrated in Japanese). At an international conference, attending online from home, and summarizing a talk given in Japanese. The venue and people are fictional, AI-generated footage; the screens are the app's real output.</figcaption></figure>
+    <figure class="shot"><video controls preload="none" playsinline poster="assets/video/guide.jpg" src="assets/video/guide.mp4"></video><figcaption><b>How to use it</b> (3 min 53 s, narrated in Japanese). From starting, through reading the translation and summary, choosing a summarization engine, and recording at a conference, to the logs.</figcaption></figure>
+  </div>
+  <p class="note">The videos show a slightly earlier version. The current version gives the summary more room and shows the transcript smaller.</p>
+</section>
+
 <section id="features">
   <h2>Features</h2>
   <div class="grid3">
     <div class="feat"><h3>Speech recognition</h3><p>Transcribes speech with the speech recognition built into Chrome. Supports more than 20 languages, including English, Japanese, Chinese, and Korean. With on-device recognition, your audio never leaves your computer.</p></div>
     <div class="feat"><h3>Translation</h3><p>Translates each finalized sentence with Chrome's built-in translation, and shows a first translation of the sentence still being spoken. You can also show the original text only.</p></div>
+    <div class="feat"><h3>One record per talk</h3><p>Each time the summary is updated, the app checks from the content and the timing whether a different talk (or, in a meeting, a different agenda item) has started, judging from what is being said even when no chair announces it. If so, it shows a confirmation and splits the record at that point automatically (you can undo it).</p></div>
     <div class="feat"><h3>Summarization</h3><p>Every few tens of seconds, it refreshes what is being discussed now, what kind of talk it is, how it is explained, the flow, key points, terms, and suggested questions.</p></div>
     <div class="feat"><h3>Records for conferences</h3><p>Each talk is saved as its own record, organized as "Conference › Session." Use "Next talk" to switch talks without stopping recognition.</p></div>
     <div class="feat"><h3>Zoom / Meet</h3><p>Can also recognize the audio of a browser tab or screen. A floating mini window that stays on top shows the latest translation and the current topic.</p></div>
@@ -73,12 +83,14 @@
 <section id="settings">
   <h2>Settings</h2>
   <figure class="shot narrow"><img src="assets/img/en/settings.jpg" alt="Settings screen" loading="lazy"></figure>
+  <figure class="shot narrow"><img src="assets/img/en/settings-split.jpg" alt="Settings screen: when the talk changes, summary update interval" loading="lazy"><figcaption>Lower part of the settings: when the talk changes, and the summary update interval</figcaption></figure>
   <dl class="parts">
     <dt>Audio input</dt><dd>Choose "Microphone" to listen to a talk in the room with your computer's microphone. Choose "Tab / screen audio" for Meet, Zoom (browser version), and similar.</dd>
     <dt>Language</dt><dd>Choose the spoken language and the target language. If a talk is in Japanese and you only want a summary, set the spoken language to Japanese and the target language to "No translation."</dd>
     <dt>Speech recognition</dt><dd>"On-device" keeps your audio on your computer (and works offline). "Cloud" recognizes speech on Google's servers.</dd>
     <dt>Sentence segmentation</dt><dd>"Continuous" is less likely to drop long sentences (recommended). "One sentence at a time" finalizes faster, but long sentences are more likely to be cut in the middle.</dd>
     <dt>Summarization engine</dt><dd>Without installing anything, you can summarize with "Gemini Nano (Chrome's built-in AI)." With the helper app, you can also choose Claude (Sonnet, Haiku, Opus) or a local LLM.</dd>
+    <dt>When the talk changes</dt><dd>Each time the summary is updated, the app checks whether a different talk (or, in a meeting, a different agenda item) has started, and if so splits the record at that point. "Split automatically" shows a confirmation and splits after 15 seconds. You can also choose "Ask first" or "Don't split." Setting the typical length of one talk gives the app an extra clue. This works when summarizing with Claude or a local LLM.</dd>
     <dt>Summary update interval</dt><dd>Choose 20 seconds, 40 seconds, 90 seconds, or manual.</dd>
   </dl>
 </section>
@@ -88,7 +100,8 @@
   <ol class="steps">
     <li>Before the session starts, click the record destination at the top (the folder icon) and enter the <b>conference name</b> and <b>session name</b>.</li>
     <li>When the talk begins, press "Start."</li>
-    <li>When the next talk begins, press <b>"Next talk."</b> The conference and session names carry over, and recognition does not stop.</li>
+    <li>When the next talk begins, the app notices it from the content, shows a confirmation, and <b>splits the record at that point after 15 seconds</b> (when summarizing with Claude or a local LLM). If it is wrong, press "Don't split"; even after the split you can press "Undo."</li>
+    <li>To switch by hand, press <b>"Next talk."</b> Either way, the conference and session names carry over, and recognition does not stop.</li>
     <li>To pause during a break, press "Stop." If you resume, you continue the record of the same talk.</li>
   </ol>
   <p class="note">Recognition accuracy drops when you are far from the room's speakers. Sitting near the front or using an external microphone improves accuracy.</p>
