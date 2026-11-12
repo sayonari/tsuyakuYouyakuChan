@@ -231,7 +231,7 @@
       </section>
     </div>
     <footer class="dlg-foot">
-      <p class="hint" id="settingsNote">音声入力・言語・認識・区切りの変更は，閉じたときに認識を作り直して反映します．<br><span class="credit">開発者：さよなりω/(大学教員)西村良太</span></p>
+      <p class="hint" id="settingsNote">音声入力・言語・認識・区切りの変更は，閉じたときに認識を作り直して反映します．<br><span class="credit">開発者：さよなりω/(大学教員)西村良太</span>　<span class="ver"><span>バージョン</span> <span data-version data-noi18n></span></span></p>
       <button class="tbtn primary" value="ok">完了</button>
     </footer>
   </form>
@@ -273,6 +273,7 @@
         <p class="empty-lead">「開始」を押すと，ここに訳が流れます．</p>
         <p class="empty-src">音声入力：<b id="emptyInput">既定のマイク</b>　言語：<b id="emptyLang">英語 → 日本語</b><button type="button" class="link" id="emptySettings">変更</button></p>
         <p class="hint">原文は訳の下に小さく出ます．上の「いま」と右の要約は，話が始まると自動で更新されます．<br>はじめての方は <a class="link" href="guide.html" target="_blank" rel="noopener">説明書</a> をどうぞ．</p>
+        <p class="hint empty-ver"><span class="ver"><span>バージョン</span> <span data-version data-noi18n></span></span></p>
       </div>
     </div>
     <button type="button" id="jump" hidden><svg><use href="#i-down"/></svg>最新へ<span id="jumpCount"></span></button>
@@ -319,5 +320,6 @@
 <script src="assets/store.js"></script>
 <script src="assets/lang/app.en.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/version.js"></script>
 </body>
 </html>

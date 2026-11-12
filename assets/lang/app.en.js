@@ -122,6 +122,7 @@ I18N.add({
   '90 秒': '90 s',
   '手動': 'Manual',
   '音声入力・言語・認識・区切りの変更は，閉じたときに認識を作り直して反映します．': 'Changes to audio input, language, recognition and segmentation take effect when you close this dialog (recognition restarts).',
+  'バージョン': 'Version',
   '開発者：さよなりω/(大学教員)西村良太': 'Developer: Sayonari ω / Ryota Nishimura (university faculty)',
   '完了': 'Done',
 
