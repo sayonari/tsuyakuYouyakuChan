@@ -13,7 +13,7 @@
   --rec: #ff5a5f; --rec-soft: rgba(255, 90, 95, .16); --rec-ink: #ffffff;
   --interim: #f0c36a; --ok: #3ccf8e; --warn: #ffb547; --err: #ff6b6b;
   --shadow-pop: 0 18px 48px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3);
-  --tr-size: 22px; --sum-size: 15px; --pip-size: 20px; --topic-size: 19px;
+  --tr-size: 17px; --sum-size: 16px; --pip-size: 20px; --topic-size: 21px;
   --r-sm: 8px; --r: 10px; --r-lg: 14px;
   --font-ui: "Avenir Next", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
   --font-ja: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
@@ -339,17 +339,18 @@ dialog::backdrop { background: rgba(4, 7, 10, .55); backdrop-filter: blur(2px); 
 
 /* ---------------------------------------------------------------- 本体 */
 #tabs { display: none; }
-main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(340px, 1fr); min-height: 0; }
+/* 要約を主，書き起こしを従に（要約のほうを広く） */
+main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 1.35fr); min-height: 0; }
 
 /* 書き起こし */
 #left { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; border-right: 1px solid var(--line); }
-#log { overflow-y: auto; padding: 16px 24px 12px; font-family: var(--font-ja); font-size: var(--tr-size); line-height: 1.6; }
-.line { padding: 8px 0 8px 15px; border-left: 3px solid transparent; margin-left: -18px; }
-.line + .line { margin-top: 6px; }
+#log { overflow-y: auto; padding: 12px 20px 10px; font-family: var(--font-ja); font-size: var(--tr-size); line-height: 1.55; }
+.line { padding: 4px 0 4px 12px; border-left: 3px solid transparent; margin-left: -15px; }
+.line + .line { margin-top: 3px; }
 .line .meta { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; line-height: 1.5; }
 .line .ja { color: var(--fg-2); min-height: 1.6em; }
 .line .ja:empty::before { content: "訳しています…"; color: var(--muted); font-size: .68em; }
-.line .en { color: var(--en); font-family: var(--font-en); font-size: max(14px, .68em); line-height: 1.5; margin-top: 2px; }
+.line .en { color: var(--en); font-family: var(--font-en); font-size: max(12px, .76em); line-height: 1.45; margin-top: 1px; }
 .line.is-latest { border-left-color: var(--accent); }
 .line.is-latest .ja { color: var(--fg); }
 body.show-ja #log .en, body.show-ja #interim .en { display: none; }
@@ -372,11 +373,11 @@ body.no-tr #log .ja, body.no-tr #interim .ja { display: none; }
   background: var(--accent); color: var(--accent-ink); border: 0; box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
 }
 #jump svg { width: 16px; height: 16px; }
-#interim { padding: 8px 24px 12px; border-top: 1px solid var(--line); background: var(--surface); font-family: var(--font-ja); font-size: var(--tr-size); line-height: 1.5; min-height: 4.2em; }
+#interim { padding: 6px 20px 10px; border-top: 1px solid var(--line); background: var(--surface); font-family: var(--font-ja); font-size: var(--tr-size); line-height: 1.5; min-height: 4.2em; }
 .interim-label { font-family: var(--font-ui); font-size: 11px; color: var(--muted); letter-spacing: .08em; font-weight: 700; }
 .interim-body { max-height: 4.6em; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
 #interim .ja { color: color-mix(in srgb, var(--interim) 72%, var(--fg)); }
-#interim .en { color: var(--en); font-family: var(--font-en); font-size: max(14px, .68em); }
+#interim .en { color: var(--en); font-family: var(--font-en); font-size: max(12px, .76em); }
 #interim:not(.active) .interim-body::before { content: "（聞き取り中の文がここに出ます）"; color: var(--muted); font-size: 13px; font-family: var(--font-ui); }
 
 #notice {
@@ -410,6 +411,10 @@ body.no-tr #log .ja, body.no-tr #interim .ja { display: none; }
 .sec.fresh > :not(h2) { animation: freshbg 4s var(--ease); border-radius: 6px; }
 @keyframes freshbg { from { background: var(--accent-soft); } to { background: transparent; } }
 .sec p { margin: 0; }
+/* いちばん見たい 2 項目（どのように説明しているか・全体要約）は大きく，はっきり */
+.sec.lead { padding: 18px 0 12px; }
+.sec.lead h2 { color: var(--accent); font-size: 12.5px; }
+.sec.lead p { font-size: 1.14em; line-height: 1.8; color: var(--fg); }
 .points { margin: 0; padding: 0; list-style: none; }
 .points li { position: relative; padding-left: 1.15em; margin: 5px 0; }
 .points li::before { content: ""; position: absolute; left: .2em; top: .72em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: .7; }
@@ -491,7 +496,7 @@ body.pip:not([data-rec="listening"]) #mini { box-shadow: inset 0 0 0 3px color-m
 .empty { max-width: 40em; }
 .empty .hint { text-wrap: balance; }
 #right:not(:has(.sec:not(.empty))):not(:has(#sTitle:not(:empty)))::before {
-  content: "話が始まると，ここに要約が出ます．\A 何の発表か・どう説明しているか・流れ・要点・全体要約・用語・質問の候補を，自動で更新します．";
+  content: "話が始まると，ここに要約が出ます．\A 何の発表か・どう説明しているか・全体要約・質問の候補・流れ・要点・用語を，自動で更新します．";
   white-space: pre-line; display: block; margin: 12vh auto 0; max-width: 24em; text-align: center; color: var(--muted); font-size: 13.5px; line-height: 1.8; font-family: var(--font-ui);
 }
 
@@ -502,5 +507,5 @@ html[lang="en"] #interim:not(.active) .interim-body::before { content: "(Speech 
 html[lang="en"] .sec.fresh h2::after { content: "Updated"; }
 html[lang="en"] .flow li.latest .h::after { content: "Latest"; }
 html[lang="en"] #right:not(:has(.sec:not(.empty))):not(:has(#sTitle:not(:empty)))::before {
-  content: "When the talk starts, the summary appears here.\A Type of talk, how it is explained, flow, key points, overview, terms and questions to ask are updated automatically.";
+  content: "When the talk starts, the summary appears here.\A Type of talk, how it is explained, overview, questions to ask, flow, key points and terms are updated automatically.";
 }

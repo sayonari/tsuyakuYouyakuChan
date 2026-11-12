@@ -44,9 +44,11 @@
   const settings = Object.assign({
     input: '', recog: 'local', mode: 'continuous', engine: 'sonnet', interval: 40,
     srcLang: 'en-US', dstLang: 'ja',
-    show: 'both', font: 22, sumFont: 15, pipFont: 20, pipW: 560, pipH: 320,
+    show: 'both', font: 17, sumFont: 16, pipFont: 20, pipW: 560, pipH: 320,
     lastEvent: '', lastGroup: '', helper: false,
   }, loadJSON(LS_SET));
+  // 画面の配分を「要約を主・書き起こしを従」に変えた（2026-11-12）．以前の既定の文字の大きさを一度だけ新しい既定に直す
+  if (settings.layout !== 2) { settings.font = 17; settings.sumFont = 16; settings.layout = 2; }
   function loadJSON(k) { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } }
   function saveSettings() { try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {} }
   const translating = () => !!settings.dstLang && trCode(settings.srcLang).split('-')[0] !== settings.dstLang.split('-')[0];
@@ -536,11 +538,11 @@
   // ---- 要約の描画：変わった項目にだけ「更新」の印を付ける
   const SECTIONS = [
     { id: 'secHow', label: T('説明の仕方'), key: (s) => s.how },
+    { id: 'secOverall', label: T('全体要約'), key: (s) => s.overall },
+    { id: 'secQuestions', label: T('質問'), key: (s) => s.questions },
     { id: 'secFlow', label: T('流れ'), key: (s) => s.flow },
     { id: 'secPoints', label: T('要点'), key: (s) => s.points },
-    { id: 'secOverall', label: T('全体要約'), key: (s) => s.overall },
     { id: 'secTerms', label: T('用語'), key: (s) => s.terms },
-    { id: 'secQuestions', label: T('質問'), key: (s) => s.questions },
   ];
   const lastShown = {};
   function li(text) { const e = document.createElement('li'); e.textContent = text; return e; }
